@@ -1,0 +1,81 @@
+<div class="modal-header">
+    <h5 class="modal-title">Add Hours</h5>
+</div>
+<div class="modal-body">
+
+    <form id="add_lesson_form" method="post">
+
+        {% csrf_token %}
+
+        <div class="form-group form_field">
+            <label for="coach_name">Coach: </label>
+            <input class="form-control" type="text" name="coach_name" id="coach_name"
+                value="{{user.first_name}} {{user.last_name}}" readonly>
+        </div>
+
+        <div class="form-group form_field">
+            <label for="lesson_type">Lesson Type: </label>
+            <select class="form-control" name="lesson_type" id="lesson_type" required>
+                <option value="" disabled selected hidden>Select Type</option>
+                <option value="Camp">Camp</option>
+                <option value="Pro Drill">Pro Drill</option>
+                <option value="Adult Clinic">Adult Clinic</option>
+                <option value="Junior Class">Junior Class</option>
+                <option value="VTC Private">VTC Private</option>
+            </select>
+        </div>
+
+        <div class="form-group form_field" id="student-field" style="display: none;">
+            <label for="student">Student: </label>
+            <input class="form-control" type="text" name="student" id="student" placeholder="Student Name" required>
+        </div>
+
+        <div class="form-group form_field">
+            <label for="duration">Duration (hrs): </label>
+            <input type="number" name="duration" id="duration" class="form-control" step="0.1" required
+                placeholder="Length of lesson (hrs)">
+        </div>
+
+        <div class="form-group form_field">
+            <label for="lesson_date">Lesson Date: </label>
+            <input class="form-control" type="date" id="lesson_date" name="lesson_date" required
+                placeholder="yyyy-mm-dd" min="2023-01-01">
+        </div>
+
+        <div class="form-group form_field">
+            <label for="lesson_time">Lesson Start Time: </label>
+            <input class="form-control" type="time" id="lesson_time" name="lesson_time" required
+                placeholder="HH:MM AM/PM">
+        </div>
+
+        <div class="form-group form_field">
+            <label for="wage">Wage: </label>
+            <input class="form-control" type="number" id="wage" name="wage" step="0.01"
+                value="{{user.account_info.wage}}" readonly>
+        </div>
+
+        <div class="alert alert-success" role="alert" id="add_success_msg" style="display: none;">
+            Hours were successfully added and can now be viewed. Feel free to add some more!
+        </div>
+
+        <div class="alert alert-danger" role="alert" id="fields_miss_msg" style="display: none;">
+            Please fill in all fields!
+        </div>
+
+        <div class="alert alert-danger" role="alert" id="add_unsuccess_msg" style="display: none;">
+            Error occured when trying to add the hours!
+        </div>
+
+        <div class="alert alert-danger" role="alert" id="date_small" style="display: none;">
+            Date selected must be after 2023!
+        </div>
+
+
+    </form>
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" id="add_btn">Add</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+</div>

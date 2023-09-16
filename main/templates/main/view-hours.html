@@ -1,0 +1,87 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/view-hours.css' %}">
+    <script src="{% static 'js/view-hours.js' %}"></script>
+
+</head>
+
+
+<div class="row justify-content-center date-container"> 
+    <div class="input-group month_select">
+        <span class="input-group-text label" id="basic-addon1">Query Date:</span>
+        <span><input type="month" id="date-picker" class="form-control" min="2023-01"></span>
+
+    </div>
+</div>
+
+<div class="row justify-content-center addHourBtn"> <!-- Add 'justify-content-center' to center the content -->
+    <button class="btn btn-info" id="add_hours_btn">Add Hours</button>
+</div>
+
+
+<div class="table-container">
+    <table class="table table-bordered" id="hour-table">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">Lesson Type</th>
+                <th scope="col">Student</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Earnings</th>
+                <th scope="col">Submitted</th>
+
+            </tr>
+        </thead>
+        <tbody id="table-content">
+
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="form_modal" tabindex="-1" aria-labelledby="edit_modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="edit_modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit_modalLabel">Delete Lesson</h5>
+            </div>
+
+            <div class="modal-body" id="modal-body">
+                <form action="#" id="delete_lesson_form" method="post">
+                    {% csrf_token %}
+
+                    <div id="confirmation_msg">
+                        Are you sure that you want to delete this entry? This action is irreversible.
+                    </div>
+
+                    <div class="alert alert-success" role="alert" id="delete_success_msg" style="display: none;">
+                        Hours were successfully deleted!
+                    </div>
+
+                    <div class="alert alert-danger" role="alert" id="delete_nosuccess_msg" style="display: none;">
+                        Could not delete the hours!
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirm_delete_btn">Delete</button>
+                <button type="button" class="btn btn-secondary" id="cancel_delete">Cancel</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+
+{% endblock %}

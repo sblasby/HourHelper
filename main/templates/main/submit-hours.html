@@ -1,0 +1,87 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Submit{% endblock title %}
+
+{% block content %}
+
+<head>
+    {% load static %}
+    <!-- <script src="{% static 'js/submit-hours.js' %}"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#start-date').popover({
+                content: 'Lessons on and after this date will appear in Excel file',
+                placement: 'right'
+            });
+
+            $('#start-date').on('focus', function () {
+                
+                var self = this;
+                
+                $(self).popover('show');
+
+                setTimeout(function () {
+                    $(self).popover('hide'); // Use 'self' to hide the popover
+                }, 5000);
+            });
+
+            $('#end-date').popover({
+                content: 'Lessons up to and including this date will be in the Excel file',
+                placement: 'right'
+            });
+
+            $('#end-date').on('focus', function () {
+                
+                var self = this;
+                
+                $(self).popover('show');
+
+                setTimeout(function () {
+                    $(self).popover('hide'); // Use 'self' to hide the popover
+                }, 5000);
+            });
+        });
+    </script>
+
+</head>
+
+<div class="row justify-content-center" style="padding: 70px 0 50px 0; max-width: 100%;">
+    <div id="form-holder">
+        <div style="width: 300px;">
+            <form method="post" action="{% url 'submission_page' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="start-date">Start Date</label>
+                    <input type="date" class="form-control" id="start-date" name="start-date" min="2023-01-01" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="end-date">End Date</label>
+                    <input type="date" class="form-control" id="end-date" name="end-date" min="2023-01-01" required>
+                </div>
+            
+                <div class="form-group">
+                    <label for="submission-month">Submission Month</label>
+                    <input type="month" class="form-control" id="submission-month" name="submission-month" min="2023-01" required>
+                </div>
+            
+                <div class="row justify-content-center" style="padding-top: 10px;">
+                    <button type="submit" class="btn btn-primary">Download Excel File</button>
+                </div>
+            </form>            
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get the input element
+    var submissionMonthInput = document.getElementById('submission-month');
+    
+    // Set the minimum value as '2023-01' (January 2023)
+    submissionMonthInput.min = '2023-01';
+</script>
+
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+
+{% block content %}
+
+<head>
+    <style>
+        /* Style for the message container */
+        .message-container {
+            text-align:center;
+            max-width: 600px;
+        }
+
+        .box-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Style for the message text */
+        .message-text {
+            font-size: 18px;
+            line-height: 1.5;
+            text-align: left;
+        }
+    </style>
+</head>
+
+{% if user.is_authenticated %}
+<div class="box-container">
+<div class="alert alert-primary message-container">
+    <h5>Message for User</h5>
+    <p class="message-text">
+        This is a project I've been working on to make tracking hours more convenient and consistent. The project is still in its beta stage, so please continue to track hours manually to avoid any loss of information or mistakes in the tracking process!
+    </p>
+    <p class="message-text">To view or change your hours, click on "Hours" in the navigation bar at the top of the page.</p>
+    <p class="message-text">If you need to change your name or your wage, please do so by navigating to your account information.</p>
+    <p class="message-text">All the best, Simon</p>
+</div>
+</div>
+
+{% else %}
+<div class="box-container">
+    <div class="alert alert-primary message-container">
+        <h5>Welcome, please login to continue</h5>
+        <p class="message-text">
+            It seems that you are not logged in.
+            If you don't have an account and would like to make one then click <a href="/register">here</a>. 
+            Otherwise, if you wish to view and make changes to you hours please <a href="/login">login</a>.
+        </p>
+    </div>
+    </div>
+{% endif %}
+{% endblock %}
