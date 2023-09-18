@@ -143,7 +143,6 @@ def DeleteHour(request, id):
 @login_required(login_url='/login')
 def SubmitHours(request):
 
-
     if request.method == "POST":
         
         curr_user = request.user
@@ -187,7 +186,10 @@ def SubmitHours(request):
 
             dataDict["Start Time"].append(lesson.date.strftime('%I:%M %p'))
 
-            dataDict['Lesson Type'].append(lesson.lesson_type)
+            if lesson.lesson_type == 'VTC Private':
+                dataDict['Lesson Type'].append(lesson.lesson_type + ' - ' + lesson.student)
+            else:
+                dataDict['Lesson Type'].append(lesson.lesson_type)
 
             dataDict["Duration (hr)"].append(lesson.duration)
 
@@ -225,9 +227,13 @@ def SubmitHours(request):
         
         output = BytesIO()
 
-        writer = pd.ExcelWriter(output, engine='openpyxl')
+        writer = pd.ExcelWriter(output, engine='xlsxwriter')
 
         dataFrame.to_excel(writer, sheet_name='Sheet1', index=False)
+
+        worksheet = writer.sheets['Sheet1']
+
+        worksheet.autofit()
         
         writer.close()  # Close the writer
 
@@ -242,18 +248,3 @@ def SubmitHours(request):
     else:
 
         return render(request, 'main/submit-hours.html', {})
-
-    # infoCol = [f'Hourly (CDN): {self.wage}']
-
-    #     # {f'{month} Hours':
-    #     # col_names = [f'{month} Hours',
-    #     #              "Date",
-    #     #              "Lesson Time",
-    #     #              "Lesson Type",
-    #     #              "Duration",
-    #     #              "Earnings (CDN)"]
-        
-    #     # data_frame = pd.DataFrame(columns=col_names)
-
-    #     for lesson in self.data:
-    pass
