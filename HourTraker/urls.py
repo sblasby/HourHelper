@@ -29,5 +29,6 @@ urlpatterns = [
     path('register/wrong-key/', rview.WrongKey ,name="wrong_key"),
     path('delete-<int:id>/', mview.DeleteHour, name='delete_hour'),
     path('edit-hour-<int:id>/', mview.EditModal, name = 'edit_hours'),
-    path('submit-hours/', mview.SubmitHours, name="submission_page")
+    path('submit-hours/', mview.SubmitHours, name="submission_page"),
+    path('', mview.Home, name='home_empty')
 ]
