@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .Rform import RegistrationForm
-from .models import Coach
+from .models import EmploymentDetails, TenTenEmployee, VTCEmployee
 
 # Create your views here.
 
@@ -21,9 +21,9 @@ def Register(request):
 
                 curr_user = User.objects.get(email=user_email)
 
-                account = Coach(user = curr_user, wage = form.cleaned_data['hourly'])
+                # account = Coach(user = curr_user, wage = form.cleaned_data['hourly'])
 
-                account.save()
+                # account.save()
 
                 return redirect("/login")
             

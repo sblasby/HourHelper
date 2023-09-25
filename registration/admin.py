@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import Coach
+from .models import EmploymentDetails, TenTenEmployee, VTCEmployee
 
 # Register your models here.
 
-admin.site.register(Coach)
+admin.site.register(EmploymentDetails)
+
+admin.site.register(TenTenEmployee)
+
+admin.site.register(VTCEmployee)
