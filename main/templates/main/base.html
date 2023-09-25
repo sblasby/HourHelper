@@ -41,7 +41,7 @@
 
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Hour Helper</a>
+        <a class="navbar-brand" href="/home">Hour Helper</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -54,12 +54,31 @@
 
             {% if user.is_authenticated %}
 
+                {% if user.is_superuser %}
+
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="/view-hours">View Hours</a>
+                </div>
+
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="/submit-hours">Submissions</a>
+                </div>
+
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="/register">Create User</a>
+                </div>
+                
+                {% else %}
+
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="/view-hours">Hours</a>
                 </div>
+       
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="/submit-hours">Submit</a>
                 </div>
+
+                {% endif %}
 
             {% endif %}
         </div>

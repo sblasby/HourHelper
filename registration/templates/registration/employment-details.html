@@ -1,0 +1,53 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+
+<div class="row justify-content-center" style="padding: 70px 0 50px 0; max-width: 100%;">
+    <div id="form-holder">
+
+        <div style="width: fit-content;">
+            <form class="form-group" method="post">
+                {% csrf_token %}
+
+                <div class="form-group form-check">
+                    <label for="TenTen-check">TenTen Employee</label>
+                    <input type="checkbox" id="TenTen-check">
+                </div>
+
+                <div class="form-group" id="TenTen-wage-group">
+                    <label for="TenTen-wage">Hourly (CDN)</label>
+                    <input type="number" step="0.01" id="TenTen-wage">
+                </div>
+
+                <div class="form-group form-check">
+                    <label for="TenTen-payroll">Payroll</label>
+                    <input type="checkbox" id="TenTen-payroll">
+                </div>
+
+                <div class="form-group form-check">
+                    <label for="VTC-check">Ten Ten Employee</label>
+                    <input type="checkbox" id="VTC-check">
+                </div>
+
+                <div class="form-group" id="VTC-wage-group">
+                    <label for="VTC-wage-group">Hourly (CDN)</label>
+                    <input type="number" step="0.01" id="VTC-wage">
+                </div>
+
+                <div class="form-group form-check">
+                    <label for="VTC-payroll">Payroll</label>
+                    <input type="checkbox" id="VTC-payroll">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Wage Information</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

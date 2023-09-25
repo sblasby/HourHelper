@@ -15,6 +15,11 @@
 
 <div class="row justify-content-center" style="padding: 70px 0 50px 0; max-width: 100%;">
     <div id="form-holder">
+
+        <div class="alert alert-info" role="alert">
+            Use the following as the temporary password: {{tempPass}}
+        </div>
+
         <div style="width: fit-content;">
             <form class="form-group" method="post">
                 {% csrf_token %}

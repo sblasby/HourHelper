@@ -11,11 +11,15 @@ class RegistrationForm(UserCreationForm):
 
     last_name = forms.CharField(max_length=30)
 
-    hourly = forms.FloatField(label="Hourly (CDN)")
+    # hourly = forms.FloatField(label="Hourly (CDN)")
 
-    reg_key = forms.CharField(max_length=20, label="Registration Key")
+    # ten_ten_employee = forms.BooleanField(label="Ten Ten Employee", required=False)
+
+    # vtc_employee = forms.BooleanField(label="VTC Coach", required=False)
 
     class Meta:
 
         model = User
         fields = ["username", "email","first_name", "last_name", "password1", "password2"]
+
+
