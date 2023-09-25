@@ -6,9 +6,12 @@ class EmploymentDetails(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="employee_details")
 
-    is_ten_ten = models.BooleanField()
+    is_ten_ten_employee = models.BooleanField()
 
     is_vtc_coach = models.BooleanField()
+
+    def __str__(self) -> str:
+        return f'Employment Details for {self.user.first_name} {self.user.last_name}'
 
 
 
@@ -27,7 +30,7 @@ class VTCEmployee(Employee):
     details = models.ForeignKey(EmploymentDetails, on_delete=models.CASCADE, related_name="vtc_details")
 
     def __str__(self) -> str:
-        return f'{self.details.user.first_name} {self.details.user.first_name}'
+        return f'{self.details.user.first_name} {self.details.user.last_name}'
 
 
 class TenTenEmployee(Employee):
@@ -35,7 +38,7 @@ class TenTenEmployee(Employee):
     details = models.ForeignKey(EmploymentDetails, on_delete=models.CASCADE, related_name="ten_ten_details")
 
     def __str__(self) -> str:
-        return f'{self.details.user.first_name} {self.details.user.first_name}'
+        return f'{self.details.user.first_name} {self.details.user.last_name}'
 
     
 
