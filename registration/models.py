@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class EmploymentDetails(models.Model):
 
-    models.OneToOneField(User, on_delete=models.CASCADE, related_name="employee_details")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="employee_details")
 
     is_ten_ten = models.BooleanField()
 
@@ -27,7 +27,7 @@ class VTCEmployee(Employee):
     details = models.ForeignKey(EmploymentDetails, on_delete=models.CASCADE, related_name="vtc_details")
 
     def __str__(self) -> str:
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.details.user.first_name} {self.details.user.first_name}'
 
 
 class TenTenEmployee(Employee):
@@ -35,7 +35,7 @@ class TenTenEmployee(Employee):
     details = models.ForeignKey(EmploymentDetails, on_delete=models.CASCADE, related_name="ten_ten_details")
 
     def __str__(self) -> str:
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.details.user.first_name} {self.details.user.first_name}'
 
     
 
