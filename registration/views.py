@@ -21,13 +21,13 @@ def Register(request):
 
             user_email = form.cleaned_data['email']
 
-            curr_user = User.objects.get(email=user_email)
+            created_user = User.objects.get(email=user_email)
 
             # account = Coach(user = curr_user, wage = form.cleaned_data['hourly'])
 
             # account.save()
 
-            return render(request, "registration/employment-details.html", {})
+            return EmploymentDetailForm(request, created_user)
             
     else:  
         form = RegistrationForm()
@@ -39,5 +39,16 @@ def Register(request):
     return render(request, 'registration/registration.html', {"form":form, "tempPass":tempPass})
 
 
-def EmploymentDetailForm(request):
-    return render(request, 'registration/employment-details.html', {})
+def EmploymentDetailForm(request, created_user):
+
+    if request.method == "POST":
+        
+        tenEmployee = request.POST.get('TenTen-check') == 'on'
+        vtcEmployee = request.POST.get('VTC-check') == 'on'
+
+        employeeDetails = EmploymentDetails(user = created_user, is_ten_ten_employee = tenEmployee, is_vtc_coach = vtcEmployee)
+
+        return redirect
+
+    else:
+        return render(request, 'registration/employment-details.html', {})
