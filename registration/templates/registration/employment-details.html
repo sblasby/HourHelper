@@ -1,5 +1,4 @@
 {% extends "main/base.html" %}
-{% load static %}
 {% load crispy_forms_tags %}
 
 
@@ -7,41 +6,57 @@
 
 {% block content %}
 
+<head>
+    {% load static %}
+    <script src="{% static 'js/employment-details.js' %}"></script>
+    <style>
+        .inner-field {
+            padding-left: 10%;
+        }
+    </style>
+
+</head>
+
 <div class="row justify-content-center" style="padding: 70px 0 50px 0; max-width: 100%;">
     <div id="form-holder">
 
-        <div style="width: fit-content;">
+        <div style="width: 300px;">
             <form class="form-group" method="post">
                 {% csrf_token %}
 
-                <div class="form-group form-check">
+                <div class="form-group" style="font-weight: bold;">
                     <label for="TenTen-check">TenTen Employee</label>
                     <input type="checkbox" id="TenTen-check">
                 </div>
 
-                <div class="form-group" id="TenTen-wage-group">
-                    <label for="TenTen-wage">Hourly (CDN)</label>
-                    <input type="number" step="0.01" id="TenTen-wage">
+                <div id="TenTen-details" style="display: none;">
+                    <div class="form-group inner-field" id="TenTen-wage-group">
+                        <label for="TenTen-wage">Hourly (CDN)</label>
+                        <input type="number" step="0.01" id="TenTen-wage">
+                    </div>
+
+                    <div class="form-group inner-field">
+                        <label for="TenTen-payroll">On Payroll</label>
+                        <input type="checkbox" id="TenTen-payroll">
+                    </div>
+
                 </div>
 
-                <div class="form-group form-check">
-                    <label for="TenTen-payroll">Payroll</label>
-                    <input type="checkbox" id="TenTen-payroll">
-                </div>
-
-                <div class="form-group form-check">
-                    <label for="VTC-check">Ten Ten Employee</label>
+                <div class="form-group" style="font-weight: bold;">
+                    <label for="VTC-check">VTC Coach</label>
                     <input type="checkbox" id="VTC-check">
                 </div>
 
-                <div class="form-group" id="VTC-wage-group">
-                    <label for="VTC-wage-group">Hourly (CDN)</label>
-                    <input type="number" step="0.01" id="VTC-wage">
-                </div>
+                <div id="VTC-details" style="display: none;">
+                    <div class="form-group inner-field" id="VTC-wage-group">
+                        <label for="VTC-wage">Hourly (CDN)</label>
+                        <input type="number" step="0.01" id="VTC-wage">
+                    </div>
 
-                <div class="form-group form-check">
-                    <label for="VTC-payroll">Payroll</label>
-                    <input type="checkbox" id="VTC-payroll">
+                    <div class="form-group inner-field">
+                        <label for="VTC-payroll">On Payroll</label>
+                        <input type="checkbox" id="VTC-payroll">
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Add Wage Information</button>
