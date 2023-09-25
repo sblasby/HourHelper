@@ -16,10 +16,10 @@
         <div class="form-group form_field">
             <label for="lesson_type">Lesson Type: </label>
             <select class="form-control" name="lesson_type" id="lesson_type" required>
-                <option value="Camp" {% if lesson_to_edit.lesson_type == 'Camp' %} selected {% endif %}>Camp</option>
-                <option value="Pro Drill" {% if lesson_to_edit.lesson_type == 'Pro Drill' %} selected {% endif %}>Pro Drill</option>
-                <option value="Adult Clinic" {% if lesson_to_edit.lesson_type == 'Adult Clinic' %} selected {% endif %}>Adult Clinic</option>
-                <option value="Junior Class" {% if lesson_to_edit.lesson_type == 'Junior Class' %} selected {% endif %}>Junior Class</option>
+                <option value="Camp" {% if lesson_to_edit.lesson_type == 'VTC Camp' %} selected {% endif %}>VTC Camp</option>
+                <option value="Pro Drill" {% if lesson_to_edit.lesson_type == 'VTC Pro Drill' %} selected {% endif %}>VTC Pro Drill</option>
+                <option value="Adult Clinic" {% if lesson_to_edit.lesson_type == 'VTC Adult Clinic' %} selected {% endif %}>VTC Adult Clinic</option>
+                <option value="Junior Class" {% if lesson_to_edit.lesson_type == 'VTC Junior Class' %} selected {% endif %}>VTC Junior Class</option>
                 <option value="VTC Private" {% if lesson_to_edit.lesson_type == 'VTC Private' %} selected {% endif %}>VTC Private</option>
             </select>
         </div>

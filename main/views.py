@@ -9,9 +9,8 @@ import pandas as pd
 from io import BytesIO
 from django.utils import timezone
 
-# Create your views here.
-# @login_required(login_url='/login')
 
+# Create your views here.
 
 def Home(request):
 
@@ -140,6 +139,7 @@ def DeleteHour(request, id):
     else:
         return HttpResponse(status = 400)
     
+    
 @login_required(login_url='/login')
 def SubmitHours(request):
 
@@ -159,20 +159,18 @@ def SubmitHours(request):
 
         end_date = dt.datetime.strptime(request.POST.get('end-date'), '%Y-%m-%d')
 
-        end_date.replace(hour=23, minute=59, second=59)
+        end_date = end_date + dt.timedelta(days=1)
 
         lesson_set = curr_user.lesson_set.filter(date__range=(start_date, end_date))
-
-        print(lesson_set)
 
         lesson_set = lesson_set.order_by('date')
 
         dataDict = {f'{month_name} Hours': [],
-                           "Date":[],
-                           "Start Time":[],
-                           "Lesson Type":[],
-                           "Duration (hr)":[],
-                           "Earnings (CDN)":[]}
+                        "Date":[],
+                        "Start Time":[],
+                        "Lesson Type":[],
+                        "Duration (hr)":[],
+                        "Earnings (CDN)":[]}
 
         addEmptyStr = False
 
@@ -213,11 +211,11 @@ def SubmitHours(request):
 
         ## Add the total row
         totalRow = {f'{month_name} Hours': ['', 'Total:'],
-                           "Date":['',''],
-                           "Start Time":['',''],
-                           "Lesson Type":['',''],
-                           "Duration (hr)":['', totalHours],
-                           "Earnings (CDN)":['', totalEarn]}
+                        "Date":['',''],
+                        "Start Time":['',''],
+                        "Lesson Type":['',''],
+                        "Duration (hr)":['', totalHours],
+                        "Earnings (CDN)":['', totalEarn]}
 
         
 
@@ -248,3 +246,4 @@ def SubmitHours(request):
     else:
 
         return render(request, 'main/submit-hours.html', {})
+        

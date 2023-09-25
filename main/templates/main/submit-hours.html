@@ -1,5 +1,4 @@
 {% extends 'main/base.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
 
 {% block title %}Submit{% endblock title %}
@@ -7,13 +6,11 @@
 {% block content %}
 
 <head>
-    {% load static %}
-    <!-- <script src="{% static 'js/submit-hours.js' %}"></script> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
             $('#start-date').popover({
-                content: 'Lessons on and after this date will appear in Excel file',
+                content: 'Select the starting date for lessons to include in the Excel file. Lessons on and after this date will be included.',
                 placement: 'right'
             });
 
@@ -29,7 +26,7 @@
             });
 
             $('#end-date').popover({
-                content: 'Lessons up to and including this date will be in the Excel file',
+                content: 'Select the ending date for lessons to include in the Excel file. Lessons up to and including this date will be included.',
                 placement: 'right'
             });
 
