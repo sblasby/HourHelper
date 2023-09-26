@@ -17,11 +17,17 @@
             </p>
             <p>
                 Do not forget to email {{firstName}} to give them their temporary password
+                as well as their username
             </p>
-
-            <p>
-                {{tempPass}}
-            </p>
+            <div style="width: fit-content;">
+                <div class="alert alert-info" role="alert">
+                    <p>
+                        {{firstName}}'s temporary password and username.<br>
+                        Username: {{userName}}<br>
+                        Temporary password: {{tempPass}}
+                    </p>
+                </div>
+            </div>
         </div>
 
     </div>

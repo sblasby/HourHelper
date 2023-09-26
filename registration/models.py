@@ -10,6 +10,8 @@ class EmploymentDetails(models.Model):
 
     is_vtc_coach = models.BooleanField()
 
+    first_login = models.BooleanField(default=True)
+
     def __str__(self) -> str:
         return f'Employment Details for {self.user.first_name} {self.user.last_name}'
 

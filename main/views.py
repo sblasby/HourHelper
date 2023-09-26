@@ -14,6 +14,16 @@ from django.utils import timezone
 
 def Home(request):
 
+    if request.method == 'POST':
+
+        curr_user = request.user
+
+        curr_user.employee_details.first_login = False
+
+        curr_user.employee_details.save()
+
+        return redirect('/logout/')
+
     return render(request, 'main/home.html', {})
 
 @login_required(login_url='/login')

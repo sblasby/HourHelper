@@ -68,7 +68,7 @@
                     <a class="nav-item nav-link" href="/register">Create User</a>
                 </div>
                 
-                {% else %}
+                {% elif not user.employee_details.first_login %}
 
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="/view-hours">Hours</a>

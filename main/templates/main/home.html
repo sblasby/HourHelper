@@ -12,10 +12,8 @@
         }
 
         .box-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            padding-top: 5%;
+            max-width: 100%;
         }
 
         /* Style for the message text */
@@ -27,33 +25,67 @@
     </style>
 </head>
 
-{% if user.is_authenticated %}
-<div class="box-container">
-    <div class="alert alert-primary message-container">
-        <h5>Message for User</h5>
-        <p class="message-text">
-            This is a project I've been working on to make tracking hours more convenient and consistent. The project is
-            still in its beta stage, so please continue to track hours manually to avoid any loss of information or
-            mistakes in the tracking process!
-        </p>
-        <p class="message-text">To view or change your hours, click on "Hours" in the navigation bar at the top of the
-            page.</p>
-        <p class="message-text">If you need to change your name or your wage, please do so by navigating to your account
-            information.</p>
-        <p class="message-text">All the best, Simon</p>
-    </div>
-</div>
 
-{% else %}
-<div class="box-container">
+<div class="row justify-content-center box-container">
     <div class="alert alert-primary message-container">
-        <h5>Welcome, please login to continue</h5>
-        <p class="message-text">
-            It seems that you are not logged in!
-            If you don't have an account and would like to make one then please contact Brain or Joel.
-            Otherwise, if you wish to view and make changes to you hours please <a href="/login">login</a>.
-        </p>
+        {% if user.is_authenticated %}
+
+            {% if user.employee_details.first_login %}
+
+                <h5>Welcome to the site {{user.first_name}}!</h5>
+                <p class="message-text">
+                    Since this is your first time logging in navigate to "Account" at the top right of the page,
+                    and click "Info" to access your account information. Once you are there please do the following.
+                </p>
+                <ol class="message-text">
+                    <li>Check username, name or email and edit if nessessary</li>
+                    <li>Check that your employment status and wages are correct - 
+                        If your wage is incorrect or you have the wrong emplyement details (ie says you work for TenTen when you should
+                        be working for Valley) please contact Brian or Joel immediately!
+                    </li>
+
+                    <li>Change your password</li>
+                </ol>
+
+                <p class="message-text">Note: You will be able to edit your account info at anytime.</p>
+ 
+                <p class="message-text">Only after you have completed all of the above and there are no
+                    issues with your account information please click the button below. You will be logged out,
+                    please log back in with the password you just created to get started!
+                </p>
+
+                <form action="/home/" method="post">
+                    {% csrf_token %}
+                    <button type="submit" id="get-started-btn" class="btn btn-success">Get Started</button>
+                </form>
+
+            {% else %}
+                <h5>Welcome back {{user.first_name}}!</h5>
+                <p class="message-text">To view or change your hours, click on "Hours" in the navigation bar at the top of the
+                    page.</p>
+                <p class="message-text">If you need to change your name, username or password please do so by navigating to "Account"
+                    at the top of the page.</p>
+                <p class="message-text">To submit your hours please click on "Submit" in the navigation bar at the top of
+                    the page, then follow the provided instructions.
+                </p>
+                <p class="message-text">If there is a mistake in your wage or you need it to be changed
+                    please contact Brian or Joel.</p>
+                <p class="message-text">If you find any issues with the functionality of the site,
+                    or you wish to suggest an improvment please contact Simon.
+                </p>
+                
+
+            {% endif %}
+
+
+        {% else %}
+            <h5>Welcome to the site! Please login to continue</h5>
+            <p class="message-text">
+                It seems that you are not logged in!
+                If you don't have an account and would like to make one then please contact Brain or Joel.
+                Otherwise, if you wish to view and make changes to you hours please <a href="/login">login</a>.
+            </p>
+        {% endif %}
     </div>
 </div>
-{% endif %}
 {% endblock %}

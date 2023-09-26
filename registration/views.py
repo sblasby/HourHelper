@@ -34,6 +34,9 @@ def Register(request):
             request.session['createdUsername'] = created_user.username
 
             return redirect('/employment-details/')
+        
+        else:
+            raise Exception('Error in form fields')
             
     else:  
         form = RegistrationForm()
@@ -48,7 +51,9 @@ def EmploymentDetailForm(request):
 
     if request.method == "POST":
 
-        created_user = User.objects.get(username = request.session['createdUsername'])
+        created_username = request.session['createdUsername']
+
+        created_user = User.objects.get(username = created_username)
 
         tempPass = request.session['tempPass']
         
@@ -72,7 +77,11 @@ def EmploymentDetailForm(request):
             job_details = VTCEmployee(details = employeeDetails, wage = wage, is_contract = contracted)
             job_details.save()
         
-        return render(request, 'registration/user-success.html', {"firstName":created_user.first_name, "tempPass":tempPass})
+        forView = {"firstName":created_user.first_name, 
+                    "tempPass":tempPass,
+                    "userName":created_username}
+
+        return render(request, 'registration/user-success.html', forView)
 
     else:
         return render(request, 'registration/employment-details.html', {})
