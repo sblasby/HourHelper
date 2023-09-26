@@ -21,41 +21,41 @@
     <div id="form-holder">
 
         <div style="width: 300px;">
-            <form class="form-group" method="post" action="/home/">
+            <form class="form-group" method="post" action="/employment-details/">
                 {% csrf_token %}
 
                 <div class="form-group" style="font-weight: bold;">
                     <label for="TenTen-check">TenTen Employee</label>
-                    <input type="checkbox" id="TenTen-check">
+                    <input type="checkbox" id="TenTen-check" name="TenTen-check">
                 </div>
 
                 <div id="TenTen-details" style="display: none;">
                     <div class="form-group inner-field" id="TenTen-wage-group">
                         <label for="TenTen-wage">Hourly (CDN)</label>
-                        <input type="number" step="0.01" id="TenTen-wage">
+                        <input type="number" step="0.01" id="TenTen-wage" name="TenTen-wage">
                     </div>
 
                     <div class="form-group inner-field">
                         <label for="TenTen-payroll">On Payroll</label>
-                        <input type="checkbox" id="TenTen-payroll">
+                        <input type="checkbox" id="TenTen-payroll" name="TenTen-payroll">
                     </div>
 
                 </div>
 
                 <div class="form-group" style="font-weight: bold;">
                     <label for="VTC-check">VTC Coach</label>
-                    <input type="checkbox" id="VTC-check">
+                    <input type="checkbox" id="VTC-check" name="VTC-check">
                 </div>
 
                 <div id="VTC-details" style="display: none;">
                     <div class="form-group inner-field" id="VTC-wage-group">
                         <label for="VTC-wage">Hourly (CDN)</label>
-                        <input type="number" step="0.01" id="VTC-wage">
+                        <input type="number" step="0.01" id="VTC-wage" name="VTC-wage">
                     </div>
 
                     <div class="form-group inner-field">
                         <label for="VTC-payroll">On Payroll</label>
-                        <input type="checkbox" id="VTC-payroll">
+                        <input type="checkbox" id="VTC-payroll" name="VTC-payroll">
                     </div>
                 </div>
 
