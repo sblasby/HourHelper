@@ -51,6 +51,8 @@ function AddBtnClicked() {
 
                 AddBtnListener()
                 LessonTypeListener()
+
+                document.dispatchEvent(new Event('modalShown'))
             })
 
             .catch(error => {
@@ -77,6 +79,7 @@ function AddBtnListener() {
     const date_field = document.getElementById('lesson_date')
     const start_field = document.getElementById('lesson_time')
     const student_field = document.getElementById('student');
+    const school_field = document.getElementById('school')
 
     //Success and UnSuccess msg
     const success_msg = document.getElementById('add_success_msg')
@@ -116,9 +119,17 @@ function AddBtnListener() {
             }, timeout);
 
         }
+        else if ((lesson_field.value.split(' ')[0] === 'TenTen' &&
+            school_field.value.trim() === '')) {
 
-        else if (parseInt(date_field.value.slice(0,4)) < 2023){
-            
+            fields_miss_msg.style.display = 'block';
+
+            setTimeout(function () {
+                fields_miss_msg.style.display = 'none';
+            }, timeout);
+        }
+        else if (parseInt(date_field.value.slice(0, 4)) < 2023) {
+
             date_msg.style.display = 'block';
 
             setTimeout(function () {
@@ -132,18 +143,18 @@ function AddBtnListener() {
 
             const csrftoken = getCookie('csrftoken')
 
-            if (csrftoken === null){
+            if (csrftoken === null) {
                 throw new Error("CSRF could not be verified")
             }
 
             const request = new Request(
                 '/add-hours/',
                 {
-                method: 'POST',
-                body: form_data,
-                headers: {'X-CSRFToken': csrftoken},
-                credentials:'same-origin'
-            }
+                    method: 'POST',
+                    body: form_data,
+                    headers: { 'X-CSRFToken': csrftoken },
+                    credentials: 'same-origin'
+                }
             );
 
             fetch(request)
@@ -177,9 +188,9 @@ function AddBtnListener() {
                 })
 
                 .catch(error => {
-                    
+
                     success_msg.style.display = 'block'
-                    
+
                     setTimeout(function () {
                         success_msg.style.display = 'none'
                     }, timeout)
@@ -192,9 +203,13 @@ function AddBtnListener() {
 function LessonTypeListener() {
     const lesson_select = document.querySelector('#lesson_type');
     const student_field = document.querySelector('#student-field');
+    const school_field = document.getElementById('school-field')
 
     if (lesson_select.value === 'VTC Private') {
         student_field.style.display = 'block'
+    }
+    else if (lesson_select.value.split(' ')[0] === 'TenTen') {
+        school_field.style.display = 'block'
     }
 
     lesson_select.addEventListener('change', function () {
@@ -203,9 +218,14 @@ function LessonTypeListener() {
 
         if (lesson_type === 'VTC Private') {
             student_field.style.display = 'block'
+            school_field.style.display = 'none'
         }
-
+        else if (lesson_select.value.split(' ')[0] === 'TenTen') {
+            school_field.style.display = 'block'
+            student_field.style.display = 'none'
+        }
         else {
+            school_field.style.display = 'none'
             student_field.style.display = 'none'
         }
 
@@ -213,13 +233,13 @@ function LessonTypeListener() {
 }
 //---------------------------------------------------------------
 //Edit Listening
-function EditListening(){
+function EditListening() {
     const edit_btns = document.getElementsByName('edit_button')
     const display_modal = document.getElementById('form_modal')
     const modal_content = document.getElementById('modal-content')
 
-    edit_btns.forEach(function(btn){
-        btn.addEventListener('click', function(event){
+    edit_btns.forEach(function (btn) {
+        btn.addEventListener('click', function (event) {
 
             const clicked_btn = event.target
             let btn_id = clicked_btn.getAttribute('id')
@@ -227,33 +247,33 @@ function EditListening(){
 
             fetch('/edit-hour-' + btn_id + '/')
 
-            .then(response =>{
-                if (!response.ok){
-                    throw new Error("Edits could not be made")
-                }
-                else{
-                    return response.text()
-                }
-            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Edits could not be made")
+                    }
+                    else {
+                        return response.text()
+                    }
+                })
 
-            .then(html =>{
+                .then(html => {
 
-                modal_content.innerHTML = html;
-                $(display_modal).modal('show')
+                    modal_content.innerHTML = html;
+                    $(display_modal).modal('show')
 
-                LessonTypeListener()
-                SaveListener(btn_id)
-            })
+                    LessonTypeListener()
+                    SaveListener(btn_id)
+                })
 
-            .catch(err =>{
-                alert(err)
-            })
+                .catch(err => {
+                    alert(err)
+                })
 
         })
     })
 }
 
-function SaveListener(dbId){
+function SaveListener(dbId) {
     const date_pick = document.getElementById('date-picker')
     const save_btn = document.getElementById('save_btn')
 
@@ -261,10 +281,10 @@ function SaveListener(dbId){
     const fields_miss_msg = document.getElementById('fields_miss_msg')
     const unsuccess_msg = document.getElementById('edit_unsuccess_msg')
 
-    function showMessage(form_msg){
+    function showMessage(form_msg) {
         form_msg.style.display = 'block'
 
-        setTimeout(function(){
+        setTimeout(function () {
             form_msg.style.display = 'block'
         }, 3000)
     }
@@ -274,6 +294,7 @@ function SaveListener(dbId){
     const date_field = document.getElementById('lesson_date')
     const start_field = document.getElementById('lesson_time')
     const student_field = document.getElementById('student');
+    const school_field = document.getElementById('school')
     const form = document.getElementById('edit_lesson_form')
 
     const field_arr = [
@@ -285,9 +306,10 @@ function SaveListener(dbId){
 
     let fieldsAreEmpty = false;
 
-    save_btn.addEventListener('click', function(){
-        field_arr.forEach(function(input_field){
-            if (input_field.value.trim() === ''){
+    save_btn.addEventListener('click', function () {
+
+        field_arr.forEach(function (input_field) {
+            if (input_field.value.trim() === '') {
                 fieldsAreEmpty = true;
             }
         })
@@ -297,44 +319,47 @@ function SaveListener(dbId){
             || fieldsAreEmpty) {
             showMessage(fields_miss_msg)
         }
-
-        else{
+        else if ((lesson_field.value.split(' ')[0] === 'TenTen' &&
+            school_field.value.trim() === '')) {
+            showMessage(fields_miss_msg)
+        }
+        else {
             const form_data = new FormData(form)
 
             const csrftoken = getCookie('csrftoken')
 
-            if (csrftoken === null){
+            if (csrftoken === null) {
                 throw new Error("CSRF could not be verified")
             }
 
             const request = new Request(
                 '/edit-hour-' + dbId.toString() + '/',
                 {
-                method: 'POST',
-                body: form_data,
-                headers: {'X-CSRFToken': csrftoken},
-                mode: 'same-origin'
-            }
+                    method: 'POST',
+                    body: form_data,
+                    headers: { 'X-CSRFToken': csrftoken },
+                    mode: 'same-origin'
+                }
             );
 
             fetch(request)
 
-            .then(response => {
-                if (!response.ok){
-                    throw new Error("Response was not ok!")
-                }
-                else{
-                    const date_select = new Date(date_pick.value + '-01 00:00:00');
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Response was not ok!")
+                    }
+                    else {
+                        const date_select = new Date(date_pick.value + '-01 00:00:00');
 
-                    dateQuery(date_select);
+                        dateQuery(date_select);
 
-                    showMessage(success_msg)
-                }
-            })
+                        showMessage(success_msg)
+                    }
+                })
 
-            .catch(error => {
-                showMessage(unsuccess_msg)
-            })
+                .catch(error => {
+                    showMessage(unsuccess_msg)
+                })
         }
 
     })
@@ -345,20 +370,20 @@ function SaveListener(dbId){
 
 //----------------------------------------------------------------
 //Delete Btn
-function DeleteListening(){
+function DeleteListening() {
     const del_btns = document.getElementsByName('delete_button')
     // const display_modal = document.getElementById('form_modal')
     // const modal_content = document.getElementById('modal-content')
 
-    del_btns.forEach(function(btn){
-        btn.addEventListener('click', function(event){
+    del_btns.forEach(function (btn) {
+        btn.addEventListener('click', function (event) {
             const clicked_btn = event.target;
             let clicked_id = clicked_btn.getAttribute('id');
             clicked_id = clicked_id.slice(4);
 
             const csrftoken = getCookie('csrftoken')
 
-            if (csrftoken === null){
+            if (csrftoken === null) {
                 throw new Error("CSRF could not be verified")
             }
 
@@ -366,30 +391,30 @@ function DeleteListening(){
                 '/delete-' + clicked_id + '/',
                 {
                     method: 'POST',
-                    headers: {'X-CSRFToken': csrftoken},
+                    headers: { 'X-CSRFToken': csrftoken },
                     mode: 'same-origin'
                 }
             );
 
             fetch(request)
 
-            .then(response =>{
-                if (!response.ok){
-                    alert("Hour could not be deleted")
-                    throw new Error("View response error")
-                }
-                else{
-                    const date_pick = document.getElementById('date-picker')
+                .then(response => {
+                    if (!response.ok) {
+                        alert("Hour could not be deleted")
+                        throw new Error("View response error")
+                    }
+                    else {
+                        const date_pick = document.getElementById('date-picker')
 
-                    const date_select = new Date(date_pick.value + '-01 00:00:00');
+                        const date_select = new Date(date_pick.value + '-01 00:00:00');
 
-                    dateQuery(date_select);
-                }
-            })
+                        dateQuery(date_select);
+                    }
+                })
 
-            .catch(err =>{
-                alert(err)
-            })
+                .catch(err => {
+                    alert(err)
+                })
 
         })
     })

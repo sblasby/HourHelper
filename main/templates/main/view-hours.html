@@ -30,7 +30,15 @@
                 <th scope="col">Date</th>
                 <th scope="col">Start Time</th>
                 <th scope="col">Lesson Type</th>
-                <th scope="col">Student</th>
+                <th scope="col">
+                    {% if user.employee_details.is_ten_ten_employee and user.employee_details.is_vtc_coach %}
+                        Student/School 
+                    {% elif user.employee_details.is_ten_ten_employee %}
+                        School
+                    {% elif user.employee_details.is_vtc_coach %}
+                        Student
+                    {% endif %}
+                </th>
                 <th scope="col">Duration</th>
                 <th scope="col">Earnings</th>
                 <th scope="col">Submitted</th>
@@ -52,37 +60,34 @@
     </div>
 </div>
 
-<!-- <div class="modal fade" id="delete_modal" tabindex="-1" aria-labelledby="edit_modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="edit_modalLabel">Delete Lesson</h5>
-            </div>
+<script>
+    document.addEventListener('modalShown', function () {
+        
+        const lesson_type = document.getElementById('lesson_type')
+        const wage_field = document.getElementById('wage')
+        const wages = {}
 
-            <div class="modal-body" id="modal-body">
-                <form action="#" id="delete_lesson_form" method="post">
-                    {% csrf_token %}
+        if ("{{user.employee_details.is_vtc_coach}}" === "True") {
+            wages.VTCwage = parseFloat("{{user.employee_details.vtc_details.wage}}")
+        }
 
-                    <div id="confirmation_msg">
-                        Are you sure that you want to delete this entry? This action is irreversible.
-                    </div>
+        if ("{{user.employee_details.is_ten_ten_employee}}" === "True") {
+            wages.Tenwage = parseFloat("{{user.employee_details.ten_ten_details.wage}}")
+        }
 
-                    <div class="alert alert-success" role="alert" id="delete_success_msg" style="display: none;">
-                        Hours were successfully deleted!
-                    </div>
+        lesson_type.addEventListener('change', function () {
+            
+            const currValue = lesson_type.value
 
-                    <div class="alert alert-danger" role="alert" id="delete_nosuccess_msg" style="display: none;">
-                        Could not delete the hours!
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="confirm_delete_btn">Delete</button>
-                <button type="button" class="btn btn-secondary" id="cancel_delete">Cancel</button>
-                </form>
-            </div>
+            if (currValue.split(' ')[0] === 'TenTen') {
+                wage_field.value = wages.Tenwage
+            }
+            else {
+                wage_field.value = wages.VTCwage
+            }
+        })
+    });
 
-        </div>
-    </div>
-</div> -->
+</script>
 
 {% endblock %}

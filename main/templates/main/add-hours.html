@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5 class="modal-title">Add Hours</h5>
+    <h5 class="modal-title">Add Hours {{user.employee_details.vtc_details}}</h5>
 </div>
 <div class="modal-body">
 
@@ -16,18 +16,31 @@
         <div class="form-group form_field">
             <label for="lesson_type">Lesson Type: </label>
             <select class="form-control" name="lesson_type" id="lesson_type" required>
+
                 <option value="" disabled selected hidden>Select Type</option>
+
+                {% if user.employee_details.is_vtc_coach %}
                 <option value="Camp">VTC Camp</option>
                 <option value="Pro Drill">VTC Pro Drill</option>
                 <option value="Adult Clinic">VTC Adult Clinic</option>
                 <option value="Junior Class">VTC Junior Class</option>
                 <option value="VTC Private">VTC Private</option>
+                {% endif %}
+
+                {% if user.employee_details.is_ten_ten_employee %}
+                <option value="TenTen After School">TenTen After School</option>
+                {% endif %}
             </select>
         </div>
 
         <div class="form-group form_field" id="student-field" style="display: none;">
             <label for="student">Student: </label>
             <input class="form-control" type="text" name="student" id="student" placeholder="Student Name" required>
+        </div>
+
+        <div class="form-group form_field" id="school-field" style="display: none;">
+            <label for="school">School: </label>
+            <input class="form-control" type="text" name="school" id="school" placeholder="School Name" required>
         </div>
 
         <div class="form-group form_field">
@@ -37,21 +50,20 @@
         </div>
 
         <div class="form-group form_field">
-            <label for="lesson_date">Lesson Date: </label>
+            <label for="lesson_date">Date: </label>
             <input class="form-control" type="date" id="lesson_date" name="lesson_date" required
                 placeholder="yyyy-mm-dd" min="2023-01-01">
         </div>
 
         <div class="form-group form_field">
-            <label for="lesson_time">Lesson Start Time: </label>
+            <label for="lesson_time">Start Time: </label>
             <input class="form-control" type="time" id="lesson_time" name="lesson_time" required
                 placeholder="HH:MM AM/PM">
         </div>
 
         <div class="form-group form_field">
             <label for="wage">Wage: </label>
-            <input class="form-control" type="number" id="wage" name="wage" step="0.01"
-                value="{{user.account_info.wage}}" readonly>
+            <input class="form-control" type="number" id="wage" name="wage" step="0.01" value="" readonly>
         </div>
 
         <div class="alert alert-success" role="alert" id="add_success_msg" style="display: none;">

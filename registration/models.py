@@ -29,7 +29,7 @@ class Employee(models.Model):
 
 class VTCEmployee(Employee):
 
-    details = models.ForeignKey(EmploymentDetails, on_delete=models.CASCADE, related_name="vtc_details")
+    details = models.OneToOneField(EmploymentDetails, on_delete=models.CASCADE, related_name="vtc_details")
 
     def __str__(self) -> str:
         return f'{self.details.user.first_name} {self.details.user.last_name}'
@@ -37,7 +37,7 @@ class VTCEmployee(Employee):
 
 class TenTenEmployee(Employee):
 
-    details = models.ForeignKey(EmploymentDetails, on_delete=models.CASCADE, related_name="ten_ten_details")
+    details = models.OneToOneField(EmploymentDetails, on_delete=models.CASCADE, related_name="ten_ten_details")
 
     def __str__(self) -> str:
         return f'{self.details.user.first_name} {self.details.user.last_name}'
