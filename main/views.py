@@ -38,18 +38,19 @@ def AddHour(request):
     if request.method == 'POST':
 
         try:
-            coach = request.POST.get("coach_name")
-            lesson_type = request.POST.get("lesson_type")
+            employee = request.POST.get("coach_name")
+            class_type = request.POST.get("lesson_type")
             student = request.POST.get("student")
+            school = request.POST.get("school")
             duration = request.POST.get("duration")
-            lesson_date = request.POST.get("lesson_date")
-            lesson_start = request.POST.get("lesson_time")
+            class_date = request.POST.get("lesson_date")
+            class_start = request.POST.get("lesson_time")
             wage = request.POST.get("wage")
             curr_user = request.user
             
-            date = dt.datetime.strptime(f'{lesson_date} {lesson_start}:00', '%Y-%m-%d %H:%M:%S')
+            date = dt.datetime.strptime(f'{class_date} {class_start}:00', '%Y-%m-%d %H:%M:%S')
 
-            if lesson_type == "VTC Private":
+            if class_type == "VTC Private":
 
                 ls = Lesson(user = curr_user, coach = coach, lesson_type = lesson_type, date=date, \
                         duration = duration, submitted = False, wage = wage, student = student)

@@ -35,7 +35,7 @@ class TenTenHour(Hour):
 
     details = models.ForeignKey(rmodels.EmploymentDetails, on_delete=models.CASCADE)
 
-    school = models.CharField(max_length=100)
+    school = models.CharField(max_length=100, blank=True)
 
     def __str__(self) -> str:
         
@@ -50,7 +50,7 @@ class VtcHour(Hour):
 
     details = models.ForeignKey(rmodels.EmploymentDetails, on_delete=models.CASCADE)
 
-    student = models.CharField(max_length=100)
+    student = models.CharField(max_length=100, blank=True)
 
     def __str__(self) -> str:
         
