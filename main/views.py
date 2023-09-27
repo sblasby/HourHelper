@@ -53,8 +53,15 @@ def AddHour(request):
             curr_user = request.user
             
             date = dt.datetime.strptime(f'{class_date} {class_start}:00', '%Y-%m-%d %H:%M:%S')
+            print(class_type)
 
-            if "VTC" in class_type:
+            if "TenTen" in class_type:
+                tenDetails = curr_user.employee_details.ten_ten_details
+
+                hour = TenTenHour(ten_ten_details = tenDetails, employee = employee, class_type = class_type, date=date, \
+                            duration = duration, submitted = False, wage = wage, school = school)
+
+            else:
                 
                 vtcDetails = curr_user.employee_details.vtc_details
 
@@ -66,12 +73,6 @@ def AddHour(request):
                     hour = VtcHour(vtc_details = vtcDetails, employee = employee, class_type = class_type, date=date, \
                             duration = duration, submitted = False, wage = wage)
             
-            else:
-                tenDetails = curr_user.employee_details.ten_ten_details
-
-                hour = TenTenHour(ten_ten_details = tenDetails, employee = employee, class_type = class_type, date=date, \
-                            duration = duration, submitted = False, wage = wage, school = school)
-
             hour.save()
 
             return HttpResponse(status = 204)
@@ -105,7 +106,7 @@ def LoadTable(request, load_year, load_month):
 
         vtcQuery = vtcQuery.order_by('-date')
 
-    elif curr_user_details.is_ten_ten_employee:
+    if curr_user_details.is_ten_ten_employee:
         
         tenQuery = curr_user_details.ten_ten_details.tentenhour_set.filter(date__gte=start_date, date__lt=end_date)
 

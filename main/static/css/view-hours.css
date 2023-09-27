@@ -2,7 +2,10 @@
     padding-top: 20px;
     padding-left: 80px;
     padding-right: 80px;
+    padding-bottom: 40px;
     max-width: 100%;
+
+
 }
 
 
@@ -33,4 +36,14 @@
     height: auto;
     max-height: 200px;
     overflow-y: scroll;
+}
+
+.table-responsive{
+    height: 200px;
+    overflow-y: auto;
+}
+
+.table-responsive thead th{
+    position: sticky;
+    top: 0;
 }
