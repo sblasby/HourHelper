@@ -26,10 +26,13 @@ def Home(request):
 
     return render(request, 'main/home.html', {})
 
+
 @login_required(login_url='/login')
 def ViewHours(request):
 
     return render(request, 'main/view-hours.html', {})
+
+
 
 @login_required(login_url='/login')
 @csrf_protect
@@ -38,27 +41,38 @@ def AddHour(request):
     if request.method == 'POST':
 
         try:
-            employee = request.POST.get("coach_name")
-            class_type = request.POST.get("lesson_type")
+            employee = request.POST.get("employee_name")
+            class_type = request.POST.get("class_type")
             student = request.POST.get("student")
             school = request.POST.get("school")
             duration = request.POST.get("duration")
-            class_date = request.POST.get("lesson_date")
-            class_start = request.POST.get("lesson_time")
+            class_date = request.POST.get("class_date")
+            class_start = request.POST.get("class_time")
             wage = request.POST.get("wage")
+            
             curr_user = request.user
             
             date = dt.datetime.strptime(f'{class_date} {class_start}:00', '%Y-%m-%d %H:%M:%S')
 
-            if class_type == "VTC Private":
+            if "VTC" in class_type:
+                
+                vtcDetails = curr_user.employee_details.vtc_details
 
-                ls = Lesson(user = curr_user, coach = coach, lesson_type = lesson_type, date=date, \
-                        duration = duration, submitted = False, wage = wage, student = student)
+                if "Private" in class_type:
+
+                    hour = VtcHour(vtc_details = vtcDetails, employee = employee, class_type = class_type, date=date, \
+                            duration = duration, submitted = False, wage = wage, student = student)
+                else:
+                    hour = VtcHour(vtc_details = vtcDetails, employee = employee, class_type = class_type, date=date, \
+                            duration = duration, submitted = False, wage = wage)
+            
             else:
-                ls = Lesson(user= curr_user, coach = coach, lesson_type = lesson_type, date=date, \
-                        duration = duration, submitted = False, wage = wage)
+                tenDetails = curr_user.employee_details.ten_ten_details
 
-            ls.save()
+                hour = TenTenHour(ten_ten_details = tenDetails, employee = employee, class_type = class_type, date=date, \
+                            duration = duration, submitted = False, wage = wage, school = school)
+
+            hour.save()
 
             return HttpResponse(status = 204)
         
@@ -73,18 +87,33 @@ def AddHour(request):
 @login_required(login_url='/login')
 def LoadTable(request, load_year, load_month):
 
-    curr_user = request.user
+    curr_user_details = request.user.employee_details
 
     start_date = dt.datetime(load_year, load_month, 1)
 
     end_date = dt.datetime(load_year, load_month + 1, 1) if load_month < 12 else dt.datetime(load_year + 1, 1, 1)
     
-    lessons = curr_user.lesson_set.filter(date__gte=start_date, date__lt=end_date)
+    emptyQuery = User.objects.filter(id=0)
 
-    lessons = lessons.order_by('-date')
+    vtcQuery = emptyQuery
+
+    tenQuery = emptyQuery
+    
+    if curr_user_details.is_vtc_coach:
+        
+        vtcQuery = curr_user_details.vtc_details.vtchour_set.filter(date__gte=start_date, date__lt=end_date)
+
+        vtcQuery = vtcQuery.order_by('-date')
+
+    elif curr_user_details.is_ten_ten_employee:
+        
+        tenQuery = curr_user_details.ten_ten_details.tentenhour_set.filter(date__gte=start_date, date__lt=end_date)
+
+        tenQuery = tenQuery.order_by('-date')
 
     var_pass = {
-        "lessons":lessons
+        "TenTenHours":tenQuery,
+        "VtcHours":vtcQuery
     }
 
     return render(request, 'main/table-entries.html', var_pass)

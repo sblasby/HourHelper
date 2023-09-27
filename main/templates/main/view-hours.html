@@ -30,23 +30,34 @@
                 <th scope="col">Date</th>
                 <th scope="col">Start Time</th>
                 <th scope="col">Lesson Type</th>
-                <th scope="col">
-                    {% if user.employee_details.is_ten_ten_employee and user.employee_details.is_vtc_coach %}
-                        Student/School 
-                    {% elif user.employee_details.is_ten_ten_employee %}
-                        School
-                    {% elif user.employee_details.is_vtc_coach %}
-                        Student
-                    {% endif %}
-                </th>
+                <th scope="col">Student</th>
                 <th scope="col">Duration</th>
                 <th scope="col">Earnings</th>
                 <th scope="col">Submitted</th>
                 <th scope="col"></th>
-
             </tr>
         </thead>
-        <tbody id="table-content">
+        <tbody id="vtc-content">
+
+        </tbody>
+    </table>
+</div>
+
+<div class="table-container">
+    <table class="table table-bordered" id="hour-table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">Lesson Type</th>
+                <th scope="col">Student</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Earnings</th>
+                <th scope="col">Submitted</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody id="ten-content">
 
         </tbody>
     </table>

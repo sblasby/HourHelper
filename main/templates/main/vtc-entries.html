@@ -1,14 +1,14 @@
 {% load static %}
 {% csrf_token %}
-{% for lesson in lessons %}
+{% for lesson in VtcHours %}
 <tr>
     <td>{{lesson.date|date:"Y-m-d"}}</th>
     <td>{{lesson.date|time:"h:i a"}}</td>
     {% if lesson.student == "" %}
-    <td colspan="2">{{lesson.lesson_type}}</td>
+    <td colspan="2">{{lesson.class_type}}</td>
 
     {% else %}
-    <td>{{lesson.lesson_type}}</td>
+    <td>{{lesson.class_type}}</td>
     <td>{{lesson.student}}</td>
 
     {% endif %}

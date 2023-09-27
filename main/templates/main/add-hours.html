@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h5 class="modal-title">Add Hours {{user.employee_details.vtc_details}}</h5>
+    <h5 class="modal-title">Add Hours</h5>
 </div>
 <div class="modal-body">
 
@@ -8,14 +8,14 @@
         {% csrf_token %}
 
         <div class="form-group form_field">
-            <label for="coach_name">Coach: </label>
-            <input class="form-control" type="text" name="coach_name" id="coach_name"
+            <label for="employee_name">Coach: </label>
+            <input class="form-control" type="text" name="employee_name" id="employee_name"
                 value="{{user.first_name}} {{user.last_name}}" readonly>
         </div>
 
         <div class="form-group form_field">
-            <label for="lesson_type">Lesson Type: </label>
-            <select class="form-control" name="lesson_type" id="lesson_type" required>
+            <label for="class_type">Lesson Type: </label>
+            <select class="form-control" name="class_type" id="class_type" required>
 
                 <option value="" disabled selected hidden>Select Type</option>
 
@@ -50,14 +50,14 @@
         </div>
 
         <div class="form-group form_field">
-            <label for="lesson_date">Date: </label>
-            <input class="form-control" type="date" id="lesson_date" name="lesson_date" required
+            <label for="class_date">Date: </label>
+            <input class="form-control" type="date" id="class_date" name="class_date" required
                 placeholder="yyyy-mm-dd" min="2023-01-01">
         </div>
 
         <div class="form-group form_field">
-            <label for="lesson_time">Start Time: </label>
-            <input class="form-control" type="time" id="lesson_time" name="lesson_time" required
+            <label for="class_time">Start Time: </label>
+            <input class="form-control" type="time" id="class_time" name="class_time" required
                 placeholder="HH:MM AM/PM">
         </div>
 

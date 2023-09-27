@@ -74,10 +74,10 @@ function AddBtnListener() {
     const timeout = 3000
 
     // Field names
-    const lesson_field = document.getElementById('lesson_type');
+    const lesson_field = document.getElementById('class_type');
     const duration_field = document.getElementById('duration')
-    const date_field = document.getElementById('lesson_date')
-    const start_field = document.getElementById('lesson_time')
+    const date_field = document.getElementById('class_date')
+    const start_field = document.getElementById('class_time')
     const student_field = document.getElementById('student');
     const school_field = document.getElementById('school')
 
@@ -201,7 +201,7 @@ function AddBtnListener() {
 }
 
 function LessonTypeListener() {
-    const lesson_select = document.querySelector('#lesson_type');
+    const lesson_select = document.querySelector('#class_type');
     const student_field = document.querySelector('#student-field');
     const school_field = document.getElementById('school-field')
 
@@ -289,10 +289,10 @@ function SaveListener(dbId) {
         }, 3000)
     }
 
-    const lesson_field = document.getElementById('lesson_type');
+    const lesson_field = document.getElementById('class_type');
     const duration_field = document.getElementById('duration')
-    const date_field = document.getElementById('lesson_date')
-    const start_field = document.getElementById('lesson_time')
+    const date_field = document.getElementById('class_date')
+    const start_field = document.getElementById('class_time')
     const student_field = document.getElementById('student');
     const school_field = document.getElementById('school')
     const form = document.getElementById('edit_lesson_form')
