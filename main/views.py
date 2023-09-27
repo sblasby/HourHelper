@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponse
 import datetime as dt
-from .models import Lesson
+from .models import VtcHour, TenTenHour
 import pandas as pd
 from io import BytesIO
 from django.utils import timezone

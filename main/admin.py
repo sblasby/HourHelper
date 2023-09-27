@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Lesson
+from .models import VtcHour, TenTenHour
 
 # Register your models here.
 
-admin.site.register(Lesson)
+admin.site.register(VtcHour)
+
+admin.site.register(TenTenHour)
