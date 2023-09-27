@@ -116,7 +116,7 @@ def LoadTable(request, load_year, load_month):
         "VtcHours":vtcQuery
     }
 
-    return render(request, 'main/table-entries.html', var_pass)
+    return render(request, 'main/two-tables.html', var_pass)
 
 @login_required(login_url='/login')
 @csrf_protect

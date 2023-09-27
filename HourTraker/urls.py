@@ -24,7 +24,7 @@ urlpatterns = [
     path('home/', mview.Home, name='home'),
     path('', include("django.contrib.auth.urls")),
     path('view-hours/', mview.ViewHours, name="view_hours"),
-    path('update-table-<int:load_year>-<int:load_month>/', mview.LoadTable, name="load_table"),
+    path('update-tables-<int:load_year>-<int:load_month>/', mview.LoadTable, name="load_table"),
     path('add-hours/', mview.AddHour, name="add_hours"),
     path('delete-<int:id>/', mview.DeleteHour, name='delete_hour'),
     path('edit-hour-<int:id>/', mview.EditModal, name = 'edit_hours'),

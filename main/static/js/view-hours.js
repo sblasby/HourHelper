@@ -445,10 +445,9 @@ function getCookie(name) {
 
 function dateQuery(date) {
 
+    const both_tables = document.getElementById('both-tables')
 
-    const table = document.querySelector('#table-content')
-
-    url = '/update-table-' + date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '/'
+    url = '/update-tables-' + date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '/'
 
 
     fetch(url)
@@ -463,7 +462,7 @@ function dateQuery(date) {
         })
 
         .then(html => {
-            table.innerHTML = html
+            both_tables.innerHTML = html
 
             EditListening()
             DeleteListening()

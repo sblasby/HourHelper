@@ -10,7 +10,7 @@
 </head>
 
 
-<div class="row justify-content-center date-container"> 
+<div class="row justify-content-center date-container">
     <div class="input-group month_select">
         <span class="input-group-text label" id="basic-addon1">Query Date:</span>
         <span><input type="month" id="date-picker" class="form-control" min="2023-01"></span>
@@ -22,45 +22,8 @@
     <button class="btn btn-info" id="add_hours_btn">Add Hours</button>
 </div>
 
-
-<div class="table-container">
-    <table class="table table-bordered" id="hour-table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Start Time</th>
-                <th scope="col">Lesson Type</th>
-                <th scope="col">Student</th>
-                <th scope="col">Duration</th>
-                <th scope="col">Earnings</th>
-                <th scope="col">Submitted</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody id="vtc-content">
-
-        </tbody>
-    </table>
-</div>
-
-<div class="table-container">
-    <table class="table table-bordered" id="hour-table">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Start Time</th>
-                <th scope="col">Lesson Type</th>
-                <th scope="col">Student</th>
-                <th scope="col">Duration</th>
-                <th scope="col">Earnings</th>
-                <th scope="col">Submitted</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody id="ten-content">
-
-        </tbody>
-    </table>
+<div class="both-tables" id="both-tables">
+    
 </div>
 
 <div class="modal fade" id="form_modal" tabindex="-1" aria-labelledby="edit_modalLabel" aria-hidden="true">
@@ -73,7 +36,7 @@
 
 <script>
     document.addEventListener('modalShown', function () {
-        
+
         const lesson_type = document.getElementById('lesson_type')
         const wage_field = document.getElementById('wage')
         const wages = {}
@@ -87,7 +50,7 @@
         }
 
         lesson_type.addEventListener('change', function () {
-            
+
             const currValue = lesson_type.value
 
             if (currValue.split(' ')[0] === 'TenTen') {
