@@ -1,11 +1,5 @@
 .table-container{
-    padding-top: 20px;
-    padding-left: 80px;
-    padding-right: 80px;
-    padding-bottom: 40px;
     max-width: 100%;
-
-
 }
 
 
@@ -39,11 +33,48 @@
 }
 
 .table-responsive{
-    height: 200px;
+    max-height: 300px;
+    height: fit-content;
     overflow-y: auto;
+    background-color: white;
 }
 
 .table-responsive thead th{
     position: sticky;
     top: 0;
+    border-top: 0;
+}
+
+.table-responsive td{
+    border-color: #454d55;
+}
+
+.table-container h1{
+    font-weight: bold;
+    max-width: 100%;
+    margin: 0;
+    background-color: #343a40;
+    position: sticky;
+    top: 0;
+    border-radius: 2px;
+    color: white;
+}
+
+.header-div{
+    border-bottom: 1px solid #454d55;
+}
+
+
+.outer-container{
+    padding: 30px 40px 30px 40px;
+}
+
+.box-div{
+    padding: 30px 40px 30px 40px;
+    background-color: lightgray;
+    border-radius: 4px;
+}
+
+#bottom-box{
+    padding-bottom: 50px;
 }

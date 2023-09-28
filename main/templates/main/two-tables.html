@@ -1,102 +1,118 @@
-<div class="table-container">
-    <div class="table-responsive">
-        <table class="table table-bordered" id="hour-table">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Start Time</th>
-                    <th scope="col">Lesson Type</th>
-                    <th scope="col">Student</th>
-                    <th scope="col">Duration</th>
-                    <th scope="col">Earnings</th>
-                    <th scope="col">Submitted</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody id="vtc-content">
-                {% csrf_token %}
-                {% for lesson in VtcHours %}
-                <tr>
-                    <td>{{lesson.date|date:"Y-m-d"}}</th>
-                    <td>{{lesson.date|time:"h:i a"}}</td>
-                    {% if lesson.student == "" %}
-                    <td colspan="2">{{lesson.class_type}}</td>
+<div class="outer-container">
+    <div class="box-div">
+        <div class="table-container">
+            <div class="header-div">
+                <h1 class="row justify-content-center">VTC Hours</h1>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="hour-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">Lesson Type</th>
+                            <th scope="col">Student</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Earnings</th>
+                            <th scope="col">Submitted</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="vtc-content">
+                        {% csrf_token %}
+                        {% for lesson in VtcHours %}
+                        <tr>
+                            <td>{{lesson.date|date:"Y-m-d"}}</th>
+                            <td>{{lesson.date|time:"h:i a"}}</td>
+                            {% if lesson.student == "" %}
+                            <td colspan="2">{{lesson.class_type}}</td>
 
-                    {% else %}
-                    <td>{{lesson.class_type}}</td>
-                    <td>{{lesson.student}}</td>
+                            {% else %}
+                            <td>{{lesson.class_type}}</td>
+                            <td>{{lesson.student}}</td>
 
-                    {% endif %}
+                            {% endif %}
 
-                    <td>{{lesson.duration}} hr</td>
-                    <td>{{lesson.earning}}$</td>
+                            <td>{{lesson.duration}} hr</td>
+                            <td>{{lesson.earning}}$</td>
 
-                    {% if lesson.submitted %}
-                    <td>Yes</td>
+                            {% if lesson.submitted %}
+                            <td>Yes</td>
 
-                    {% else %}
-                    <td>No</td>
+                            {% else %}
+                            <td>No</td>
 
-                    {% endif %}
+                            {% endif %}
 
-                    <td>
-                        <button class="btn btn-primary" id="Ebtn{{lesson.id}}" name="edit_button">Edit</button>
-                        <button class="btn btn-secondary" id="Dbtn{{lesson.id}}" name="delete_button">Delete</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                            <td>
+                                <button class="btn btn-primary" id="Ebtn{{lesson.id}}" name="edit_button">Edit</button>
+                                <button class="btn btn-secondary" id="Dbtn{{lesson.id}}"
+                                    name="delete_button">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="table-container">
-    <div class="table-responsive">
-        <table class="table table-bordered" id="hour-table">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Start Time</th>
-                    <th scope="col">Class Type</th>
-                    <th scope="col">School</th>
-                    <th scope="col">Duration</th>
-                    <th scope="col">Earnings</th>
-                    <th scope="col">Submitted</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody id="ten-content">
-                {% csrf_token %}
-                {% for class in TenTenHours %}
-                <tr>
-                    <td>{{class.date|date:"Y-m-d"}}</th>
-                    <td>{{class.date|time:"h:i a"}}</td>
-                    {% if class.school == "" %}
-                    <td colspan="2">{{class.class_type}}</td>
+<div class="outer-container" id="bottom-box">
+    <div class="box-div">
+        <div class="table-container">
+            <div class="header-div">
+                <h1 class="row justify-content-center">TenTen Hours</h1>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="hour-table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">Class Type</th>
+                            <th scope="col">School</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Earnings</th>
+                            <th scope="col">Submitted</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="ten-content">
+                        {% csrf_token %}
+                        {% for class in TenTenHours %}
+                        <tr>
+                            <td>{{class.date|date:"Y-m-d"}}</th>
+                            <td>{{class.date|time:"h:i a"}}</td>
+                            {% if class.school == "" %}
+                            <td colspan="2">{{class.class_type}}</td>
 
-                    {% else %}
-                    <td>{{class.class_type}}</td>
-                    <td>{{class.school}}</td>
+                            {% else %}
+                            <td>{{class.class_type}}</td>
+                            <td>{{class.school}}</td>
 
-                    {% endif %}
+                            {% endif %}
 
-                    <td>{{class.duration}} hr</td>
-                    <td>{{class.earning}}$</td>
+                            <td>{{class.duration}} hr</td>
+                            <td>{{class.earning}}$</td>
 
-                    {% if class.submitted %}
-                    <td>Yes</td>
+                            {% if class.submitted %}
+                            <td>Yes</td>
 
-                    {% else %}
-                    <td>No</td>
+                            {% else %}
+                            <td>No</td>
 
-                    {% endif %}
-                    <td>
-                        <button class="btn btn-primary" id="Ebtn{{class.id}}" name="edit_button">Edit</button>
-                        <button class="btn btn-secondary" id="Dbtn{{class.id}}" name="delete_button">Delete</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                            {% endif %}
+                            <td>
+                                <button class="btn btn-primary" id="Ebtn{{class.id}}" name="edit_button">Edit</button>
+                                <button class="btn btn-secondary" id="Dbtn{{class.id}}"
+                                    name="delete_button">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
