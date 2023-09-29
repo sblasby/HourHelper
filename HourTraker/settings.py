@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'registration.apps.RegistrationConfig',
+    'submissions.apps.SubmissionsConfig',
     'crispy_forms',
     'crispy_bootstrap4',
 ]
