@@ -387,7 +387,17 @@ function DeleteListening() {
         btn.addEventListener('click', function (event) {
             const clicked_btn = event.target;
             let clicked_id = clicked_btn.getAttribute('id');
-            clicked_id = clicked_id.slice(4);
+            let dbTable = ""
+
+            if (clicked_id.includes("Ten")){
+                dbTable = "TenTen"
+
+            }
+            else if (clicked_id.includes("Vtc")){
+                dbTable = "VTC"
+            }
+
+            clicked_id = clicked_id.slice(7);
 
             const csrftoken = getCookie('csrftoken')
 
@@ -396,7 +406,7 @@ function DeleteListening() {
             }
 
             const request = new Request(
-                '/delete-' + clicked_id + '/',
+                '/delete-' + dbTable + '-' + clicked_id + '/',
                 {
                     method: 'POST',
                     headers: { 'X-CSRFToken': csrftoken },
@@ -408,8 +418,8 @@ function DeleteListening() {
 
                 .then(response => {
                     if (!response.ok) {
-                        alert("Hour could not be deleted")
-                        throw new Error("View response error")
+                        
+                        throw new Error("View response error, hour could not be deleted")
                     }
                     else {
                         const date_pick = document.getElementById('date-picker')

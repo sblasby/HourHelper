@@ -193,14 +193,19 @@ def EditModal(request, dbTable, id):
 
 @login_required(login_url='/login')
 @csrf_protect
-def DeleteHour(request, id):
+def DeleteHour(request, dbTable, id):
 
     if request.method == "POST":
         
         curr_user = request.user
 
         try:
-            to_delete = curr_user.lesson_set.get(id=id)
+
+            if dbTable == "TenTen":
+                to_delete = curr_user.employee_details.ten_ten_details.tentenhour_set.get(id=id)
+            
+            elif dbTable == "VTC":
+                to_delete = curr_user.employee_details.vtc_details.vtchour_set.get(id=id)
 
             to_delete.delete()
 
