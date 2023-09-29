@@ -121,42 +121,74 @@ def LoadTable(request, load_year, load_month):
 
 @login_required(login_url='/login')
 @csrf_protect
-def EditModal(request, id):
+def EditModal(request, dbTable, id):
 
     curr_user = request.user
 
-    lesson_edit = curr_user.lesson_set.get(id=id)
+    if dbTable == "VTC":
+        hour_edit = curr_user.employee_details.vtc_details.vtchour_set.get(id = id)
 
+        field_names = ["Coach",
+                       "Lesson Type",
+                       "Lesson Date",
+                       "Lesson Start Time"]
+
+    elif dbTable == "TenTen":
+        hour_edit = curr_user.employee_details.ten_ten_details.tentenhour_set.get(id = id)
+
+        field_names = ["Instructor",
+                       "Program Type",
+                       "Program Date",
+                       "Program Start Time"]
+
+    else:
+        raise Exception("No DB Table")
+
+    
     if request.method == "POST":
         
-        lesson_edit.duration = request.POST.get("duration")
+        hour_edit.duration = request.POST.get("duration")
 
-        lesson_edit.lesson_type = request.POST.get("lesson_type")
+        hour_edit.class_type = request.POST.get("class_type")
 
-        date_str = request.POST.get("lesson_date")
+        date_str = request.POST.get("class_date")
 
-        start_time = request.POST.get("lesson_time")
+        start_time = request.POST.get("class_time")
 
-        lesson_edit.date = dt.datetime.strptime(f'{date_str} {start_time}:00', '%Y-%m-%d %H:%M:%S')
+        hour_edit.date = dt.datetime.strptime(f'{date_str} {start_time}:00', '%Y-%m-%d %H:%M:%S')
 
-        lesson_edit.earning = float(request.POST.get("duration")) * curr_user.account_info.wage
+        if dbTable == 'VTC':
 
-        student = request.POST.get("student")
-
-        if student and lesson_edit.lesson_type == 'VTC Private':
+            hour_edit.earning = float(request.POST.get("duration")) * curr_user.employee_details.vtc_details.wage
             
-            lesson_edit.student = student
+            student = request.POST.get("student")
+            
+            if hour_edit.class_type == 'VTC Private':
+            
+                hour_edit.student = student
 
-        else:
-            lesson_edit.student = ""
+            else:
+                hour_edit.student = ""
 
-        lesson_edit.save()
+        elif dbTable == 'TenTen':
+
+            hour_edit.earning = float(request.POST.get("duration")) * curr_user.employee_details.ten_ten_details.wage
+            
+            school = request.POST.get("school")
+
+            hour_edit.school = school
+
+        hour_edit.save()
 
         return HttpResponse(status = 204)
     
     else:
 
-        return render(request, 'main/edit-hours.html', {'lesson_to_edit':lesson_edit})
+        d = {'hour_to_edit':hour_edit, 
+             'hour_type':dbTable,
+             'field_names':field_names}
+
+        return render(request, 'main/edit-hours.html', d)
 
 
 @login_required(login_url='/login')

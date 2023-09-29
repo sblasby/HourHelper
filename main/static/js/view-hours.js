@@ -203,7 +203,7 @@ function AddBtnListener() {
 function LessonTypeListener() {
     const lesson_select = document.querySelector('#class_type');
     const student_field = document.querySelector('#student-field');
-    const school_field = document.getElementById('school-field')
+    const school_field = document.getElementById('school-field');
 
     if (lesson_select.value === 'VTC Private') {
         student_field.style.display = 'block'
@@ -243,9 +243,18 @@ function EditListening() {
 
             const clicked_btn = event.target
             let btn_id = clicked_btn.getAttribute('id')
-            btn_id = btn_id.slice(4)
+            let dbTable = ""
 
-            fetch('/edit-hour-' + btn_id + '/')
+            if (btn_id.includes("Vtc")){
+                dbTable = "VTC"
+            }
+            else if (btn_id.includes('Ten')){
+                dbTable = "TenTen"
+            }
+            
+            btn_id = btn_id.slice(7)
+
+            fetch('/edit-hour-' + dbTable + '-'+ btn_id + '/')
 
                 .then(response => {
                     if (!response.ok) {
@@ -260,9 +269,8 @@ function EditListening() {
 
                     modal_content.innerHTML = html;
                     $(display_modal).modal('show')
-
                     LessonTypeListener()
-                    SaveListener(btn_id)
+                    SaveListener(btn_id, dbTable)
                 })
 
                 .catch(err => {
@@ -273,7 +281,7 @@ function EditListening() {
     })
 }
 
-function SaveListener(dbId) {
+function SaveListener(dbId, dbTable) {
     const date_pick = document.getElementById('date-picker')
     const save_btn = document.getElementById('save_btn')
 
@@ -333,7 +341,7 @@ function SaveListener(dbId) {
             }
 
             const request = new Request(
-                '/edit-hour-' + dbId.toString() + '/',
+                '/edit-hour-' + dbTable + '-' + dbId.toString() + '/',
                 {
                     method: 'POST',
                     body: form_data,

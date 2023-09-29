@@ -8,64 +8,71 @@
         {% csrf_token %}
 
         <div class="form-group form_field">
-            <label for="coach_name">Coach: </label>
-            <input class="form-control" type="text" name="coach_name" id="coach_name"
+            <label for="employee_name">{{field_names.0}}:</label>
+            <input class="form-control" type="text" name="employee_name" id="employee_name"
                 value="{{user.first_name}} {{user.last_name}}" readonly>
         </div>
 
         <div class="form-group form_field">
-            <label for="lesson_type">Lesson Type: </label>
-            <select class="form-control" name="lesson_type" id="lesson_type" required>
-                {% if user.employee_details.is_vtc_coach %}
-                <option value="Camp" {% if lesson_to_edit.lesson_type == 'VTC Camp' %} selected {% endif %}>VTC Camp</option>
-                <option value="Pro Drill" {% if lesson_to_edit.lesson_type == 'VTC Pro Drill' %} selected {% endif %}>VTC Pro Drill</option>
-                <option value="Adult Clinic" {% if lesson_to_edit.lesson_type == 'VTC Adult Clinic' %} selected {% endif %}>VTC Adult Clinic</option>
-                <option value="Junior Class" {% if lesson_to_edit.lesson_type == 'VTC Junior Class' %} selected {% endif %}>VTC Junior Class</option>
-                <option value="VTC Private" {% if lesson_to_edit.lesson_type == 'VTC Private' %} selected {% endif %}>VTC Private</option>
-                {% endif %}
+            <label for="class_type">{{field_names.1}}:</label>
+            <select class="form-control" name="class_type" id="class_type" required>
+                {% if hour_type == "VTC" %}
+                <option value="Camp" {% if hour_to_edit.lesson_type == 'VTC Camp' %} selected {% endif %}>VTC Camp</option>
+                <option value="Pro Drill" {% if hour_to_edit.lesson_type == 'VTC Pro Drill' %} selected {% endif %}>VTC Pro Drill</option>
+                <option value="Adult Clinic" {% if hour_to_edit.lesson_type == 'VTC Adult Clinic' %} selected {% endif %}>VTC Adult Clinic</option>
+                <option value="Junior Class" {% if hour_to_edit.lesson_type == 'VTC Junior Class' %} selected {% endif %}>VTC Junior Class</option>
+                <option value="VTC Private" {% if hour_to_edit.lesson_type == 'VTC Private' %} selected {% endif %}>VTC Private</option>
 
-                {% if user.employee_details.is_ten_ten_employee %}
+                {% elif hour_type == "TenTen" %}
                 <option value="TenTen After School">TenTen After School</option>
                 {% endif %}
             </select>
         </div>
 
+
         <div class="form-group form_field" id="student-field" style="display: none;">
             <label for="student">Student: </label>
             <input class="form-control" type="text" name="student" id="student" placeholder="Student Name"
-            value="{{lesson_to_edit.student}}">
+            value="{{hour_to_edit.student}}">
         </div>
+
 
         <div class="form-group form_field" id="school-field" style="display: none;">
             <label for="school">School: </label>
             <input class="form-control" type="text" name="school" id="school" placeholder="School Name" 
-            value="{{lesson_to_edit.student}}">
+            value="{{hour_to_edit.school}}">
         </div>
 
+        
         <div class="form-group form_field">
             <label for="duration">Duration (hrs): </label>
-            <input type="number" name="duration" id="duration" class="form-control" step="0.1"
-                value="{{lesson_to_edit.duration}}">
+            <input type="number" name="duration" id="duration" class="form-control" step="0.25"
+                value="{{hour_to_edit.duration}}">
         </div>
 
         <div class="form-group form_field">
-            <label for="lesson_date">Lesson Date: </label>
-            <input class="form-control" type="date" id="lesson_date" name="lesson_date" 
-                value="{{lesson_to_edit.date|date:'Y-m-d'}}" min="2023-01-01">
+            <label for="class_date">{{field_names.2}}:</label>
+            <input class="form-control" type="date" id="class_date" name="class_date" 
+                value="{{hour_to_edit.date|date:'Y-m-d'}}" min="2023-01-01">
         </div>
 
         <div class="form-group form_field">
-            <label for="lesson_time">Lesson Start Time: </label>
-            <input class="form-control" type="time" id="lesson_time" name="lesson_time"
-                value="{{lesson_to_edit.date|time:'H:i'}}">
+            <label for="class_time">{{field_names.3}}:</label>
+            <input class="form-control" type="time" id="class_time" name="class_time"
+                value="{{hour_to_edit.date|time:'H:i'}}">
         </div>
 
+        
         <div class="form-group form_field">
             <label for="wage">Wage: </label>
-            <input class="form-control" type="number" id="wage" name="wage" step="0.01"
-                value="{{user.account_info.wage}}" readonly>
+            <input class="form-control" type="number" id="wage" name="wage" step="0.01" readonly
+            {% if hour_type == "VTC" %}
+                value="{{user.employee_details.vtc_details.wage}}"
+            {% elif hour_type == 'TenTen' %}
+                value="{{user.employee_details.ten_ten_details.wage}}"
+            {% endif %}>
         </div>
-
+        
         <div class="alert alert-success" role="alert" id="edit_success_msg" style="display: none;">
             Hours were successfully changed!
         </div>
