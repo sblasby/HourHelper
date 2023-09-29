@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from main import views as mview
 from registration import views as rview
+from submissions import views as sview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,7 +29,7 @@ urlpatterns = [
     path('add-hours/', mview.AddHour, name="add_hours"),
     path('delete-<str:dbTable>-<int:id>/', mview.DeleteHour, name='delete_hour'),
     path('edit-hour-<str:dbTable>-<int:id>/', mview.EditModal, name = 'edit_hours'),
-    path('submit-hours/', mview.SubmitHours, name="submission_page"),
+    path('submit-hours/', sview.CreateSheet, name="submission_page"),
     path('employment-details/', rview.EmploymentDetailForm, name="employee_details"),
     path('', mview.Home, name='home_empty'),
 ]
