@@ -1,3 +1,5 @@
+
+{% if user.employee_details.is_vtc_coach %}
 <div class="outer-container">
     <div class="box-div">
         <div class="table-container">
@@ -57,7 +59,10 @@
         </div>
     </div>
 </div>
+{% endif %}
 
+
+{% if user.employee_details.is_ten_ten_employee %}
 <div class="outer-container" id="bottom-box">
     <div class="box-div">
         <div class="table-container">
@@ -116,3 +121,4 @@
         </div>
     </div>
 </div>
+{% endif %}
