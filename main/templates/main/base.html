@@ -14,6 +14,11 @@
 
     <style>
         /* Custom CSS for spacing out the links */
+
+        .navbar{
+            padding-right: 1.75rem;
+        }
+
         .nav-link {
             margin-right: 30px;
             /* Adjust the value to increase or decrease the spacing */
@@ -32,6 +37,28 @@
             border-radius: 20px;
             width: fit-content;
             font-size: large;
+        }
+
+        /* .navbar-nav.show {
+            background-color:#3f474e;
+        } */
+
+        .dropdown-menu.show{
+            background-color: #3f474e;
+            padding: 0;
+        }
+
+        .dropdown-item {
+            color: rgba(255,255,255,.5);
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #343a40;
+            color: white;
+            border-radius: 0.25rem;
+            
         }
     </style>
 
@@ -54,44 +81,56 @@
 
             {% if user.is_authenticated %}
 
-                {% if user.is_superuser %}
+            {% if user.is_superuser %}
 
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/view-hours">View Hours</a>
-                </div>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/view-hours">View Hours</a>
+            </div>
 
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/submit-hours">Submissions</a>
-                </div>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/submit-hours">Submissions</a>
+            </div>
 
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/register">Create User</a>
-                </div>
-                
-                {% elif not user.employee_details.first_login %}
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/register">Create User</a>
+            </div>
 
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/view-hours">Hours</a>
-                </div>
+            {% elif not user.employee_details.first_login %}
 
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/submit-hours">Create Spreadsheet</a>
-                </div>
-       
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/#">Submit</a>
-                </div>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/view-hours">Hours</a>
+            </div>
 
-                {% endif %}
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/submit-hours">Create Spreadsheet</a>
+            </div>
+
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/#">Submit</a>
+            </div>
+
+            {% endif %}
 
             {% endif %}
         </div>
 
-            
+        {% if user.is_authenticated %}
         <div class="navbar-nav ml-auto">
-            <a class="nav-item nav-link" {% if user.is_authenticated %} href="/logout">Logout</a> {% else %}
-            href="/login">Log in</a>{% endif %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                    aria-expanded="false">{{user.first_name}}</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Account Info</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                </div>
+            </li>
         </div>
+
+        {% else %}
+        <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link" href="/login">Log in</a>
+        </div>
+        {% endif %}
 
     </nav>
 
