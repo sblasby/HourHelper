@@ -6,6 +6,7 @@ import datetime as dt
 from main.models import VtcHour, TenTenHour
 import pandas as pd
 from io import BytesIO
+from collections import namedtuple
 
 
 @login_required(login_url='/login')
@@ -14,82 +15,44 @@ def CreateSheet(request):
     if request.method == "POST":
         
         curr_user = request.user
-        
-        submission_month = request.POST.get('submission-month')
 
-        submission_month_datetime = dt.datetime.strptime(submission_month, '%Y-%m')
+        curr_details = curr_user.employee_details
 
-        month_name = submission_month_datetime.strftime('%B')
-
-        hourly = curr_user.account_info.wage
+        table_type = request.POST.get('which_table')
 
         start_date = dt.datetime.strptime(request.POST.get('start-date'), '%Y-%m-%d')
 
         end_date = dt.datetime.strptime(request.POST.get('end-date'), '%Y-%m-%d')
 
+        submission_year_month = dt.datetime.strftime(end_date, '%Y-%m')
+
+        month_name = end_date.strftime('%B')
+        
         end_date = end_date + dt.timedelta(days=1)
 
-        lesson_set = curr_user.lesson_set.filter(date__range=(start_date, end_date))
+        query_set = []
 
-        lesson_set = lesson_set.order_by('date')
+        hourly = []
 
-        dataDict = {f'{month_name} Hours': [],
-                        "Date":[],
-                        "Start Time":[],
-                        "Lesson Type":[],
-                        "Duration (hr)":[],
-                        "Earnings (CDN)":[]}
+        Wage = namedtuple("Wage", ["wage", "employment"])
 
-        addEmptyStr = False
-
-        totalHours = 0
-
-        totalEarn = 0
-
-        for lesson in lesson_set:
+        if table_type == "VTC" or table_type == "Both":
             
-            dataDict["Date"].append(lesson.date.strftime('%m-%d'))
-
-            dataDict["Start Time"].append(lesson.date.strftime('%I:%M %p'))
-
-            if lesson.lesson_type == 'VTC Private':
-                dataDict['Lesson Type'].append(lesson.lesson_type + ' - ' + lesson.student)
-            else:
-                dataDict['Lesson Type'].append(lesson.lesson_type)
-
-            dataDict["Duration (hr)"].append(lesson.duration)
-
-            dataDict["Earnings (CDN)"].append(lesson.earning)
-
-            totalHours += lesson.duration
-
-            totalEarn += lesson.earning
-
-
-            if addEmptyStr:
-                dataDict[f'{month_name} Hours'].append('')
-
-            else:
-                dataDict[f'{month_name} Hours'].append(f'Hourly (CDN): {hourly}')
-                addEmptyStr = True
-
-            lesson.submitted = True
-
-            lesson.save()
-
-        ## Add the total row
-        totalRow = {f'{month_name} Hours': ['', 'Total:'],
-                        "Date":['',''],
-                        "Start Time":['',''],
-                        "Lesson Type":['',''],
-                        "Duration (hr)":['', totalHours],
-                        "Earnings (CDN)":['', totalEarn]}
-
+            vtcSet = curr_details.vtc_details.vtchour_set.filter(date__range=(start_date, end_date))
+            
+            query_set.extend(list(vtcSet))
+            
+            hourly.append(Wage(curr_details.vtc_details.wage, "VTC"))
         
+        if table_type == "TenTen" or table_type == "Both":
+            
+            tenSet = curr_details.ten_ten_details.tentenhour_set.filter(date__range=(start_date, end_date))
+            
+            query_set.extend(list(tenSet))
 
-        dataFrame = pd.DataFrame(data=dataDict)
+            hourly.append(Wage(curr_details.ten_ten_details.wage, "TenTen"))
 
-        dataFrame = pd.concat([dataFrame, pd.DataFrame(totalRow)], ignore_index=True)
+        dataFrame = _createDataFrame(query_set, hourly, month_name)
         
         output = BytesIO()
 
@@ -107,7 +70,7 @@ def CreateSheet(request):
 
         # Create a response and set appropriate headers for downloading
         response = HttpResponse(output.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = f'attachment; filename={curr_user.first_name}_{curr_user.last_name}_{submission_month}_Hours.xlsx'
+        response['Content-Disposition'] = f'attachment; filename={curr_user.first_name}_{curr_user.last_name}_{submission_year_month}_Hours.xlsx'
 
         return response
 
@@ -115,4 +78,75 @@ def CreateSheet(request):
 
         return render(request, 'submissions/submit-hours.html', {})
         
+
+def _createDataFrame(query_set, hourly, month_name):
+
+    class_set = sorted(query_set, key = lambda item: item.date)
+
+    dataDict = {f'{month_name} Hours': [],
+                    "Date":[],
+                    "Start Time":[],
+                    "Lesson Type":[],
+                    "Duration (hr)":[],
+                    "Earnings (CDN)":[]}
+
+
+    totalHours = 0
+
+    totalEarn = 0
+
+    ind = 0
+
+    for work in class_set:
+        
+        dataDict["Date"].append(work.date.strftime('%m-%d'))
+
+        dataDict["Start Time"].append(work.date.strftime('%I:%M %p'))
+
+        if work.class_type == 'VTC Private':
+            dataDict['Lesson Type'].append(work.class_type + ' - ' + work.student)
+        
+        elif work.class_type == "TenTen After School":
+            dataDict['Lesson Type'].append(work.class_type + ' - ' + work.school)
+        
+        else:
+            dataDict['Lesson Type'].append(work.class_type)
+
+        dataDict["Duration (hr)"].append(work.duration)
+
+        dataDict["Earnings (CDN)"].append(work.earning)
+
+        totalHours += work.duration
+
+        totalEarn += work.earning
+
+        if ind == 0:
+            dataDict[f'{month_name} Hours'].append(f'Hourly (CDN)')
+
+        elif ind < len(hourly) + 1:
+            
+            wage = hourly[ind - 1].wage
+            
+            name = hourly[ind - 1].employment
+            
+            dataDict[f'{month_name} Hours'].append(f'{name}: ${wage}')
+
+        else:
+            dataDict[f'{month_name} Hours'].append('')
+        
+        ind += 1
+
+    dataFrame = pd.DataFrame(data=dataDict)
+
+    ## Add the total row
+    totalRow = {f'{month_name} Hours': ['', 'Total:'],
+                    "Date":['',''],
+                    "Start Time":['',''],
+                    "Lesson Type":['',''],
+                    "Duration (hr)":['', totalHours],
+                    "Earnings (CDN)":['', totalEarn]}
+
+    dataFrame = pd.concat([dataFrame, pd.DataFrame(totalRow)], ignore_index=True)
+
+    return dataFrame
 

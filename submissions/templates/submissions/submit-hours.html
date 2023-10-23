@@ -1,16 +1,17 @@
 {% extends 'main/base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Submit{% endblock title %}
+{% block title %}Download Spreadsheet{% endblock title %}
 
 {% block content %}
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        const popup_time = 7000
         $(document).ready(function () {
             $('#start-date').popover({
-                content: 'Select the starting date for lessons to include in the Excel file. Lessons on and after this date will be included.',
+                content: 'Select the starting date for lessons to include in the Excel file (lessons on this date will be included).',
                 placement: 'right'
             });
 
@@ -22,11 +23,11 @@
 
                 setTimeout(function () {
                     $(self).popover('hide'); // Use 'self' to hide the popover
-                }, 5000);
+                }, popup_time);
             });
 
             $('#end-date').popover({
-                content: 'Select the ending date for lessons to include in the Excel file. Lessons up to and including this date will be included.',
+                content: 'Select the ending date for lessons to include in the Excel file (lessons up to and including this date will be included).',
                 placement: 'right'
             });
 
@@ -38,7 +39,7 @@
 
                 setTimeout(function () {
                     $(self).popover('hide'); // Use 'self' to hide the popover
-                }, 5000);
+                }, popup_time);
             });
         });
     </script>
@@ -48,8 +49,30 @@
 <div class="row justify-content-center" style="padding: 70px 0 50px 0; max-width: 100%;">
     <div id="form-holder">
         <div style="width: 300px;">
-            <form method="post" action="{% url 'submission_page' %}">
+            <form method="post" action="{% url 'create_sheet' %}">
                 {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="which_table">Hours to include</label>
+                    <select name="which_table" id="which_table" class="form-control" required>
+                        
+                        <option value="" disabled selected hidden>Select Option</option>
+                        
+                        {% if user.employee_details.is_vtc_coach %}
+                        <option value="VTC">VTC Hours</option>
+                        {% endif %}
+
+                        {% if user.employee_details.is_ten_ten_employee %}
+                        <option value="TenTen">TenTen Hours</option>
+                        {% endif %}
+                        
+                        {% if user.employee_details.is_ten_ten_employee and user.employee_details.is_vtc_coach %}
+                        <option value="Both">Both</option>
+                        {% endif %}
+
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label for="start-date">Start Date</label>
                     <input type="date" class="form-control" id="start-date" name="start-date" min="2023-01-01" required>
@@ -60,13 +83,8 @@
                     <input type="date" class="form-control" id="end-date" name="end-date" min="2023-01-01" required>
                 </div>
             
-                <div class="form-group">
-                    <label for="submission-month">Submission Month</label>
-                    <input type="month" class="form-control" id="submission-month" name="submission-month" min="2023-01" required>
-                </div>
-            
                 <div class="row justify-content-center" style="padding-top: 10px;">
-                    <button type="submit" class="btn btn-primary">Download Excel File</button>
+                    <button type="submit" class="btn btn-primary">Download Spreadsheet</button>
                 </div>
             </form>            
         </div>

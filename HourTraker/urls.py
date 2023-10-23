@@ -29,7 +29,7 @@ urlpatterns = [
     path('add-hours/', mview.AddHour, name="add_hours"),
     path('delete-<str:dbTable>-<int:id>/', mview.DeleteHour, name='delete_hour'),
     path('edit-hour-<str:dbTable>-<int:id>/', mview.EditModal, name = 'edit_hours'),
-    path('submit-hours/', sview.CreateSheet, name="submission_page"),
+    path('create-sheet/', sview.CreateSheet, name="create_sheet"),
     path('employment-details/', rview.EmploymentDetailForm, name="employee_details"),
     path('', mview.Home, name='home_empty'),
 ]

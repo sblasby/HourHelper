@@ -17,14 +17,14 @@
             <label for="class_type">{{field_names.1}}:</label>
             <select class="form-control" name="class_type" id="class_type" required>
                 {% if hour_type == "VTC" %}
-                <option value="Camp" {% if hour_to_edit.lesson_type == 'VTC Camp' %} selected {% endif %}>VTC Camp</option>
-                <option value="Pro Drill" {% if hour_to_edit.lesson_type == 'VTC Pro Drill' %} selected {% endif %}>VTC Pro Drill</option>
-                <option value="Adult Clinic" {% if hour_to_edit.lesson_type == 'VTC Adult Clinic' %} selected {% endif %}>VTC Adult Clinic</option>
-                <option value="Junior Class" {% if hour_to_edit.lesson_type == 'VTC Junior Class' %} selected {% endif %}>VTC Junior Class</option>
-                <option value="VTC Private" {% if hour_to_edit.lesson_type == 'VTC Private' %} selected {% endif %}>VTC Private</option>
+                <option value="Camp" {% if hour_to_edit.class_type == 'Camp' %} selected {% endif %}>VTC Camp</option>
+                <option value="Pro Drill" {% if hour_to_edit.class_type == 'Pro Drill' %} selected {% endif %}>VTC Pro Drill</option>
+                <option value="Adult Clinic" {% if hour_to_edit.class_type == 'Adult Clinic' %} selected {% endif %}>VTC Adult Clinic</option>
+                <option value="Junior Class" {% if hour_to_edit.class_type == 'Junior Class' %} selected {% endif %}>VTC Junior Class</option>
+                <option value="VTC Private" {% if hour_to_edit.class_type == 'VTC Private' %} selected {% endif %}>VTC Private</option>
 
                 {% elif hour_type == "TenTen" %}
-                <option value="TenTen After School">TenTen After School</option>
+                <option value="TenTen After School" {% if hour_to_edit.class_type == 'TenTen After School' %} selected {% endif %}>TenTen After School</option>
                 {% endif %}
             </select>
         </div>
