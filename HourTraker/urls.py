@@ -18,6 +18,7 @@ from django.urls import path, include
 from main import views as mview
 from registration import views as rview
 from submissions import views as sview
+from master import views as masview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +33,5 @@ urlpatterns = [
     path('create-sheet/', sview.CreateSheet, name="create_sheet"),
     path('employment-details/', rview.EmploymentDetailForm, name="employee_details"),
     path('', mview.Home, name='home_empty'),
+    path('master-table/', masview.MasterTable, name='Master Table'),
 ]
