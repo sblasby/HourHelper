@@ -76,7 +76,7 @@ def CreateSheet(request):
 
     else:
 
-        return render(request, 'submissions/submit-hours.html', {})
+        return render(request, 'submissions/download-sheet.html', {})
         
 
 def _createDataFrame(query_set, hourly, month_name):

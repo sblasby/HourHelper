@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'registration.apps.RegistrationConfig',
     'submissions.apps.SubmissionsConfig',
+    'master.apps.MasterConfig',
     'crispy_forms',
     'crispy_bootstrap4',
 ]
