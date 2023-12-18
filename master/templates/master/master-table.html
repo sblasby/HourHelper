@@ -6,16 +6,28 @@
 {% block content %}
 
 <head>
+    {% load static %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/master-table.css' %}">
+    <script src="{% static 'js/master-table.js' %}"></script>
 </head>
 
 
-<div class="row justify-content-center date-container">
+<div class="row justify-content-center date-container" style="width: 100%;">
     <div class="input-group month_select">
         <span class="input-group-text label" id="basic-addon1">View Month:</span>
         <span><input type="month" id="date-picker" class="form-control" min="2023-01"></span>
-        <span><input type="employee" id="employee-field" class="form-control"></span>
-
+        <span class="input-with-dropdown">
+            <input type="text" id="employee-field" class="form-control" placeholder="Select Employee">
+            <div id="employee-drop" class="dropdown-employee">
+                <div class="employee-container">
+                    <!-- Add your employee options here -->
+                    <div class="employee-select">Employee 1</div>
+                    <div class="employee-select">Employee 2</div>
+                    <div class="employee-select">Employee 3</div>
+                </div>
+            </div>
+        </span>
     </div>
 </div>
 
